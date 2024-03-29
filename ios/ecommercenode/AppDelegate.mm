@@ -7,7 +7,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  self.moduleName = @"Assemble";
+  self.moduleName = @"e_commerce_node";
   if ([FIRApp defaultApp] == nil) {
     [FIRApp configure];
   }
