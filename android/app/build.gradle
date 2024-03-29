@@ -74,9 +74,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.assemble"
+    namespace "com.e_commerce_node"
     defaultConfig {
-        applicationId "com.assemble"
+        applicationId "com.e_commerce_node"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

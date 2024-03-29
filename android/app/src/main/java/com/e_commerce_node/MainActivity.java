@@ -1,4 +1,4 @@
-package com.assemble;
+package com.e_commerce_node;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

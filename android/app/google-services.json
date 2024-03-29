@@ -1,52 +1,27 @@
 {
   "project_info": {
-    "project_number": "153444834280",
-    "project_id": "assemble-408917",
-    "storage_bucket": "assemble-408917.appspot.com"
+    "project_number": "629600719957",
+    "firebase_url": "https://e-commerce-a5d5f-default-rtdb.firebaseio.com",
+    "project_id": "e-commerce-a5d5f",
+    "storage_bucket": "e-commerce-a5d5f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:153444834280:android:66c86f0de261842fa3625d",
+        "mobilesdk_app_id": "1:629600719957:android:0c2edf5060a49b6e6270dc",
         "android_client_info": {
-          "package_name": "com.assemble"
+          "package_name": "com.e_commerce_node"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "153444834280-eeo0kj3jha5cja7lnffce3gc1d1sqg9h.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.assemble",
-            "certificate_hash": "ac7d66dfd17ef98737e216025bd8e7190bbd9225"
-          }
-        },
-        {
-          "client_id": "153444834280-be509i52m49jlt7l0ds0ic9ucbg5lh0l.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDseU3ktAAq9klichmeXXQB0-0bGdldyTU"
+          "current_key": "AIzaSyBTWDbT15FQjJCXTXMERejzsTXbDsaYT7o"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "153444834280-be509i52m49jlt7l0ds0ic9ucbg5lh0l.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "153444834280-3f4rrg7cfktqo0935nuimku8dnqpt5o3.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "assemble",
-                "app_store_id": "123456789"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

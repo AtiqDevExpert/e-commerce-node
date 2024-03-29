@@ -1,4 +1,4 @@
-package com.assemble;
+package com.e_commerce_node;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
