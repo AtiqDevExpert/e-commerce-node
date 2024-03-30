@@ -499,26 +499,27 @@ PODS:
     - React-Core
   - react-native-camera/RN (4.2.1):
     - React-Core
-  - react-native-fbsdk-next (12.1.3):
+  - react-native-fbsdk-next (12.1.4):
     - React-Core
-    - react-native-fbsdk-next/Core (= 12.1.3)
-    - react-native-fbsdk-next/Login (= 12.1.3)
-    - react-native-fbsdk-next/Share (= 12.1.3)
-  - react-native-fbsdk-next/Core (12.1.3):
+    - react-native-fbsdk-next/Core (= 12.1.4)
+    - react-native-fbsdk-next/Login (= 12.1.4)
+    - react-native-fbsdk-next/Share (= 12.1.4)
+  - react-native-fbsdk-next/Core (12.1.4):
     - FBSDKCoreKit (~> 16.3.1)
     - React-Core
-  - react-native-fbsdk-next/Login (12.1.3):
+  - react-native-fbsdk-next/Login (12.1.4):
     - FBSDKLoginKit (~> 16.3.1)
     - React-Core
-  - react-native-fbsdk-next/Share (12.1.3):
+  - react-native-fbsdk-next/Share (12.1.4):
     - FBSDKGamingServicesKit (~> 16.3.1)
     - FBSDKShareKit (~> 16.3.1)
     - React-Core
-  - react-native-geolocation (3.1.0):
+  - react-native-geolocation (3.2.1):
+    - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - react-native-geolocation-service (5.3.1):
     - React
-  - react-native-maps (1.10.3):
+  - react-native-maps (1.12.0):
     - React-Core
   - react-native-safe-area-context (4.9.0):
     - React-Core
@@ -636,7 +637,7 @@ PODS:
     - React-Core
   - RNCalendarEvents (2.2.0):
     - React
-  - RNCAsyncStorage (1.22.0):
+  - RNCAsyncStorage (1.23.1):
     - React-Core
   - RNCMaskedView (0.3.1):
     - React-Core
@@ -656,11 +657,11 @@ PODS:
     - GoogleUtilities/AppDelegateSwizzler
     - React-Core
     - RNFBApp
-  - RNGestureHandler (2.15.0):
+  - RNGestureHandler (2.16.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - RNGoogleSignin (10.1.1):
-    - GoogleSignIn (~> 7.0)
+  - RNGoogleSignin (10.1.2):
+    - GoogleSignIn (~> 7.0.0)
     - React-Core
   - RNImageCropPicker (0.40.3):
     - React-Core
@@ -671,13 +672,13 @@ PODS:
     - React-Core
     - React-RCTImage
     - TOCropViewController
-  - RNPermissions (4.1.2):
+  - RNPermissions (4.1.5):
     - React-Core
-  - RNReanimated (3.7.0):
+  - RNReanimated (3.8.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - ReactCommon/turbomodule/core
-  - RNScreens (3.29.0):
+  - RNScreens (3.30.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - RNSVG (14.1.0):
@@ -1022,10 +1023,10 @@ SPEC CHECKSUMS:
   react-native-background-timer: 17ea5e06803401a379ebf1f20505b793ac44d0fe
   react-native-blur: 69ecfe61d81b32ee7baae10f5d17aeb4e2594b10
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
-  react-native-fbsdk-next: 42229cf278a44c0f7249179c9b2d084109d8e2bd
-  react-native-geolocation: ef66fb798d96284c6043f0b16c15d9d1d4955db4
+  react-native-fbsdk-next: a929da980a4ec199391da637d3d2ce22b6e7779e
+  react-native-geolocation: 1279fd4390e311ec3f2fc2878279934147fdd061
   react-native-geolocation-service: 608e1da71a1ac31b4de64d9ef2815f697978c55b
-  react-native-maps: 72a8a903f8a1b53e2c777ba79102078ab502e0bf
+  react-native-maps: a164b01f3840b35d738ba7af95855299fce830ca
   react-native-safe-area-context: b97eb6f9e3b7f437806c2ce5983f479f8eb5de4b
   React-NativeModulesApple: 797bc6078d566eef3fb3f74127e6e1d2e945a15f
   React-perflogger: cd8886513f68e1c135a1e79d20575c6489641597
@@ -1046,18 +1047,18 @@ SPEC CHECKSUMS:
   ReactCommon: 91ece8350ebb3dd2be9cef662abd78b6948233c0
   RNAppleAuthentication: e99eaf3c4c01ad8ecb6125dd6f0cfd98871685b5
   RNCalendarEvents: 7e65eb4a94f53c1744d1e275f7fafcfaa619f7a3
-  RNCAsyncStorage: c43e6d71e13bb4748503797784839e0fbbf89d56
+  RNCAsyncStorage: 826b603ae9c0f88b5ac4e956801f755109fa4d5c
   RNCMaskedView: 090213d32d8b3bb83a4dcb7d12c18f0152591906
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNFBApp: e4439717c23252458da2b41b81b4b475c86f90c4
   RNFBAuth: 50ac123123b27241927e639c0ac9c8af17f05aa1
   RNFBDynamicLinks: 538840f6e3f58511f857d15df1bc25ed655dc283
-  RNGestureHandler: 7909c50383a18f0cb10ce1db7262b9a6da504c03
-  RNGoogleSignin: aac5c1ec73422109dec1da770247a1e410dcc620
+  RNGestureHandler: 69d0a928253547ef857a7be4f453220b9c472e07
+  RNGoogleSignin: 9d0ecc3bff939ccef83cb3a26b874130b06a6e81
   RNImageCropPicker: e7ab6fb43d2fc3e84651e786ef4a080d63b0ed3d
-  RNPermissions: 8424ff4410c3a2e200a581f4b72fe1c58772f2b8
-  RNReanimated: 9dfe7a19dd7c3e123b23db42e74bf051725f2ea3
-  RNScreens: 3c5b9f4a9dcde752466854b6109b79c0e205dad3
+  RNPermissions: 61b8edba5840184422892cbe589243014a3a5025
+  RNReanimated: f4798af7dede23d41039f0bc372710ead86e90c7
+  RNScreens: bb06f14b5c352e603f2527caac02ca0d6398c6e5
   RNSVG: ba3e7232f45e34b7b47e74472386cf4e1a676d0a
   RNVectorIcons: 64e6a523ac30a3241efa9baf1ffbcc5e76ff747a
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
@@ -1067,6 +1068,6 @@ SPEC CHECKSUMS:
   Yoga: 86fed2e4d425ee4c6eab3813ba1791101ee153c6
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: c9f671c25e6770f6fdc3d7906c7f0b50414078a6
+PODFILE CHECKSUM: 045b8b1e46eacea939b62f20969821a7603a1e00
 
 COCOAPODS: 1.14.3

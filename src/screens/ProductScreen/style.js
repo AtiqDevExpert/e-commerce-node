@@ -1,0 +1,66 @@
+import {StyleSheet} from 'react-native';
+const styles = StyleSheet.create({
+  carouselItem: {
+    width: 350,
+    height: 250,
+    borderRadius: 10,
+    elevation: 5,
+    overflow: 'hidden',
+    shadowColor: '#ff0',
+    shadowOffset: {
+      width: 6,
+      height: 6,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.5,
+    marginHorizontal: 10,
+  },
+  itemName: {
+    position: 'absolute',
+    bottom: 10,
+    left: 10,
+    color: '#000',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  imageView: {width: 350, height: 250, borderRadius: 10},
+  header: {
+    color: '#000',
+    fontSize: 30,
+    marginHorizontal: 10,
+    fontWeight: 'bold',
+    marginVertical: 5,
+  },
+  headerMore: {
+    color: '#000',
+    fontSize: 30,
+    marginHorizontal: 10,
+    fontWeight: 'bold',
+    marginVertical: 5,
+  },
+  flatlItem: {
+    width: 300,
+    height: 300,
+    borderRadius: 10,
+    elevation: 50,
+    shadowColor: '#ff0',
+    shadowOffset: {
+      width: 6,
+      height: 6,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.5,
+    marginVertical: 10,
+    alignSelf: 'center',
+    marginHorizontal: 5,
+    backgroundColor: '#000',
+  },
+  flatImage: {width: 300, height: 300, borderRadius: 10},
+  container: {
+    flex: 1,
+    backgroundColor: '#FFF',
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
+  },
+});
+export default styles;
