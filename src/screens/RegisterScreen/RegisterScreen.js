@@ -5,230 +5,385 @@ import {
   View,
   TextInput,
   Image,
-  Dimensions,
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
-  Platform,
-  SafeAreaView,
   ScrollView,
 } from "react-native";
-// import { Icon } from "react-native-elements";
-
+import Modal from "react-native-modal";
+import ImagePicker from "react-native-image-crop-picker";
+import Toast from "react-native-root-toast";
+import { Colors } from "../../utilis/colors";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { CrossRedIcon, UploadIcon } from "../../assets/svg/SvgIcons";
+import styles from "./style";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import firebaseUploader from "../../utilis/firebaseUpload";
+import Button from "../../components/Button";
+import FastImage from "react-native-fast-image";
+import Loading from "../../components/Loading";
+import PhoneNumberInput from "../../components/PhoneNumberInput";
+import { SignUp_Request } from "../../utilis/api/Requests";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const RegisterScreen = ({ navigation }) => {
+  const [name, setName] = useState("Atiq Ur Rehman");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [emailValue, setEmailValue] = useState("princeatiqk@gmail.com");
+  const [passwordValue, setPasswordValue] = useState("12345678");
+  const [confirmPasswordValue, setConfirmPasswordValue] = useState("12345678");
+  const [selecter, setSelecter] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState(null);
+  const [secureTextEntryPasssword, setSecureTextEntryPassword] = useState(true);
+  const [secureTextEntryConfirmPasssword, setSecureTextEntryConfirmPasssword] =
+    useState(true);
   const backToLogin = () => {
     navigation.navigate("login");
   };
+  const onHandleSignup = async () => {
+    setLoading(true);
+    const body = {
+      name: name,
+      phone: phoneNumber,
+      role: "user",
+      email: emailValue,
+      password: passwordValue,
+      confirmPassword: confirmPasswordValue,
+      profilePicture: image,
+    };
+
+    console.log("Signup body ===== > ", body);
+    if (
+      !body.email.includes("@") ||
+      body.password.length < 8 ||
+      body.password !== body.confirmPassword
+    ) {
+      alert(
+        "Invalid Credential! Please check your email has @ and password should be 8 or greater than 8 characters"
+      );
+      setLoading(false);
+    } else {
+      try {
+        let response = await SignUp_Request(body);
+        console.log("response ==== > ", response);
+        await AsyncStorage.setItem("USER_ID", response.id);
+        Toast.show("User Registered Successfully", Toast.LONG);
+
+        navigation.navigate("otp");
+        setLoading(false);
+      } catch (error) {
+        console.error("Error signing up:", error);
+        Toast.show(error.message, Toast.LONG);
+        setLoading(false);
+      }
+    }
+  };
+  const takePhotoFromCamera = () => {
+    const folderName = "users";
+    ImagePicker.openCamera({
+      width: 300,
+      height: 400,
+    }).then(async (image) => {
+      if (selecter === false) {
+        setVisible(false);
+        setLoading(true);
+        const result = await firebaseUploader(image, folderName);
+        setImage(result);
+        setSelecter(false);
+        setLoading(false);
+      } else {
+        setVisible(false);
+        setSelecter(false);
+        setLoading(false);
+      }
+    });
+  };
+  const takePhotoFromGallery = () => {
+    const folderName = "users";
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+    }).then(async (image) => {
+      if (selecter === false) {
+        setVisible(false);
+        setLoading(true);
+        const result = await firebaseUploader(image, folderName);
+        setImage(result);
+        setSelecter(false);
+        setLoading(false);
+      } else {
+        setVisible(false);
+        setSelecter(false);
+        setLoading(false);
+      }
+    });
+  };
+  const onClear = () => {
+    setImage(null);
+    setSelecter(false);
+  };
+
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={styles.container}>
-        <ScrollView
-          scrollEnabled={true}
-          contentContainerStyle={{ justifyContent: "center", flex: 1 }}
-        >
+    <KeyboardAwareScrollView
+      contentContainerStyle={styles.container}
+      extraScrollHeight={100}
+    >
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View style={styles.container}>
           <View style={styles.bigCircle}></View>
           <View style={styles.smallCircle}></View>
 
           <View style={styles.centerizedView}>
             <View style={styles.authBox}>
               <View style={styles.logoBox}>
-                {/* <Icon
-                color="#fff"
-                name="comments"
-                type="font-awesome"
-                size={50}
-              /> */}
+                {!image ? (
+                  <View
+                    style={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <View style={styles.coverView}>
+                      <TouchableOpacity
+                        style={styles.touch1}
+                        onPress={() => setVisible(true)}
+                      >
+                        <UploadIcon style={styles.uploadIcon} />
+                        <Text
+                          style={{
+                            color: "black",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            color: Colors.dark,
+                          }}
+                        >
+                          Upload
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                ) : (
+                  <View
+                    style={{ justifyContent: "center", alignItems: "center" }}
+                  >
+                    <View style={styles.coverView}>
+                      <View style={styles.imageBox}>
+                        <TouchableOpacity
+                          onPress={onClear}
+                          style={styles.touchable}
+                        >
+                          <CrossRedIcon style={styles.crossRedIcon2} />
+                        </TouchableOpacity>
+                        <View style={styles.imageContainer}>
+                          <FastImage
+                            source={{ uri: image }}
+                            resizeMode={FastImage.resizeMode.stretch}
+                            style={styles.image}
+                          />
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                )}
               </View>
               <Text style={styles.loginTitleText}>Register</Text>
               <View style={styles.hr}></View>
               <View style={styles.inputBox}>
                 <Text style={styles.inputLabel}>Full Name</Text>
                 <TextInput
+                  placeholder="Full name"
+                  value={name}
                   style={styles.input}
-                  autoCapitalize={false}
+                  autoCapitalize="none"
+                  onChangeText={(text) => setName(text)}
                   keyboardType="email-address"
-                  textContentType="emailAddress"
                 />
               </View>
               <View style={styles.inputBox}>
                 <Text style={styles.inputLabel}>Phone</Text>
-                <TextInput
-                  style={styles.input}
-                  autoCapitalize={false}
-                  keyboardType="email-address"
-                  textContentType="emailAddress"
+                <PhoneNumberInput
+                  placeholder="Enter Phone"
+                  value={phoneNumber}
+                  onChangeText={(text) => setPhoneNumber(text)}
                 />
               </View>
               <View style={styles.inputBox}>
                 <Text style={styles.inputLabel}>Email</Text>
                 <TextInput
+                  placeholder="Email"
                   style={styles.input}
-                  autoCapitalize={false}
+                  value={emailValue}
+                  label="Email"
+                  onChangeText={(text) => setEmailValue(text)}
+                  secure={false}
+                  autoCapitalize="none"
                   keyboardType="email-address"
-                  textContentType="emailAddress"
                 />
               </View>
+
               <View style={styles.inputBox}>
                 <Text style={styles.inputLabel}>Password</Text>
-                <TextInput
-                  style={styles.input}
-                  autoCapitalize={false}
-                  secureTextEntry={true}
-                  textContentType="password"
-                />
+                <View style={styles.passwordInputContainer}>
+                  <TextInput
+                    placeholder="Password"
+                    style={[
+                      styles.input,
+                      {
+                        borderColor:
+                          passwordValue !== confirmPasswordValue
+                            ? Colors.red
+                            : Colors.green,
+                      },
+                    ]}
+                    autoCapitalize="none"
+                    secureTextEntry={secureTextEntryPasssword}
+                    value={passwordValue}
+                    onChangeText={(text) => setPasswordValue(text)}
+                  />
+                  <TouchableOpacity
+                    onPress={() => {
+                      setSecureTextEntryPassword(!secureTextEntryPasssword);
+                    }}
+                    style={styles.eyeIconContainer}
+                  >
+                    <FontAwesome
+                      name={secureTextEntryPasssword ? "eye-slash" : "eye"}
+                      size={18}
+                      color={Colors.black}
+                    />
+                  </TouchableOpacity>
+                </View>
               </View>
-              <View style={styles.inputBox}>
-                <Text style={styles.inputLabel}>Role</Text>
-                <TextInput
-                  style={styles.input}
-                  autoCapitalize={false}
-                  secureTextEntry={true}
-                  textContentType="emailAddress"
-                />
-              </View>
-              <View style={styles.inputBox}>
-                <Text style={styles.inputLabel}>Password</Text>
-                <TextInput
-                  style={styles.input}
-                  autoCapitalize={false}
-                  secureTextEntry={true}
-                  textContentType="password"
-                />
-              </View>
+
               <View style={styles.inputBox}>
                 <Text style={styles.inputLabel}>Confirm Password</Text>
-                <TextInput
-                  style={styles.input}
-                  autoCapitalize={false}
-                  secureTextEntry={true}
-                  textContentType="password"
-                />
+                <View style={styles.passwordInputContainer}>
+                  <TextInput
+                    placeholder="Confirm Password"
+                    style={[
+                      styles.input,
+                      {
+                        borderColor:
+                          passwordValue !== confirmPasswordValue
+                            ? Colors.red
+                            : Colors.green,
+                      },
+                    ]}
+                    autoCapitalize="none"
+                    secureTextEntry={secureTextEntryConfirmPasssword}
+                    value={confirmPasswordValue}
+                    onChangeText={(text) => setConfirmPasswordValue(text)}
+                  />
+                  <TouchableOpacity
+                    onPress={() => {
+                      setSecureTextEntryConfirmPasssword(
+                        !secureTextEntryConfirmPasssword
+                      );
+                    }}
+                    style={styles.eyeIconContainer}
+                  >
+                    <FontAwesome
+                      name={
+                        secureTextEntryConfirmPasssword ? "eye-slash" : "eye"
+                      }
+                      size={18}
+                      color={Colors.black}
+                    />
+                  </TouchableOpacity>
+                </View>
               </View>
-              <TouchableOpacity style={styles.loginButton}>
-                <Text style={styles.loginButtonText}>Register</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={backToLogin}>
+
+              <Button
+                text={"Register"}
+                color={Colors.white}
+                fontSize={20}
+                height={50}
+                width={"100%"}
+                marginTop={30}
+                backgroundColor={Colors.dangerColor}
+                borderColor={Colors.dangerColor}
+                marginBottom={10}
+                fontWeight={"bold"}
+                onPress={onHandleSignup}
+              />
+              <View
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  marginTop: 20,
+                }}
+              >
                 <Text style={styles.registerText}>
-                  Already have an account? Login Now
+                  Already have an account ?
                 </Text>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  style={{ justifyContent: "center", alignItems: "center" }}
+                  onPress={backToLogin}
+                >
+                  <Text style={[styles.registerText, { color: "#ff4757" }]}>
+                    {" " + `Login Now`}
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </ScrollView>
-      </View>
-    </TouchableWithoutFeedback>
+
+          {!!visible && (
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Modal isVisible={visible}>
+                <View style={styles.ModalView}>
+                  <TouchableOpacity
+                    onPress={() => setVisible(false)}
+                    style={styles.modalIcon}
+                  >
+                    <CrossRedIcon style={styles.crossRedIcon} />
+                  </TouchableOpacity>
+                  <Text style={{ color: Colors.modalTextColor }}>
+                    Click your desired Button
+                  </Text>
+                  <View style={styles.ModalBtnView}>
+                    <Button
+                      text={"Open camera"}
+                      color={Colors.white}
+                      fontSize={15}
+                      height={45}
+                      width={"40%"}
+                      marginTop={30}
+                      backgroundColor={Colors.dangerColor}
+                      borderColor={Colors.dangerColor}
+                      marginBottom={10}
+                      onPress={takePhotoFromCamera}
+                    />
+
+                    <Button
+                      text={"Open Gallery"}
+                      color={Colors.white}
+                      fontSize={15}
+                      height={45}
+                      width={"40%"}
+                      marginTop={30}
+                      backgroundColor={Colors.dangerColor}
+                      borderColor={Colors.dangerColor}
+                      marginBottom={10}
+                      onPress={takePhotoFromGallery}
+                    />
+                  </View>
+                </View>
+              </Modal>
+            </View>
+          )}
+          {loading && <Loading />}
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAwareScrollView>
   );
 };
+
 export default RegisterScreen;
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    position: "relative",
-    justifyContent: "center",
-  },
-  bigCircle: {
-    width: Dimensions.get("window").height * 0.7,
-    height: Dimensions.get("window").height * 0.7,
-    backgroundColor: "#ff6b81",
-    borderRadius: 1000,
-    position: "absolute",
-    right: Dimensions.get("window").width * 0.25,
-    top: -50,
-  },
-  smallCircle: {
-    width: Dimensions.get("window").height * 0.4,
-    height: Dimensions.get("window").height * 0.4,
-    backgroundColor: "#ff7979",
-    borderRadius: 1000,
-    position: "absolute",
-    bottom: Dimensions.get("window").width * -0.2,
-    right: Dimensions.get("window").width * -0.3,
-  },
-  centerizedView: {
-    width: "100%",
-    top: Platform.OS === "android" ? 25 : 25,
-  },
-  authBox: {
-    width: "80%",
-    backgroundColor: "#fafafa",
-    borderRadius: 20,
-    alignSelf: "center",
-    paddingHorizontal: 14,
-    paddingBottom: 30,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  logoBox: {
-    width: 100,
-    height: 100,
-    backgroundColor: "#eb4d4b",
-    borderRadius: 1000,
-    alignSelf: "center",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    top: -50,
-    marginBottom: -50,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    elevation: 2,
-  },
-  loginTitleText: {
-    fontSize: 26,
-    fontWeight: "bold",
-    marginTop: 10,
-  },
-  hr: {
-    width: "100%",
-    height: 0.5,
-    backgroundColor: "#444",
-    marginTop: 6,
-  },
-  inputBox: {
-    marginTop: 10,
-  },
-  inputLabel: {
-    fontSize: 18,
-    marginBottom: 6,
-  },
-  input: {
-    width: "100%",
-    height: 40,
-    backgroundColor: "#dfe4ea",
-    borderRadius: 4,
-    paddingHorizontal: 10,
-  },
-  loginButton: {
-    backgroundColor: "#ff4757",
-    marginTop: 10,
-    paddingVertical: 10,
-    borderRadius: 4,
-  },
-  loginButtonText: {
-    color: "#fff",
-    textAlign: "center",
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  registerText: {
-    textAlign: "center",
-    marginTop: 20,
-    fontSize: 16,
-  },
-  forgotPasswordText: {
-    textAlign: "center",
-    marginTop: 12,
-    fontSize: 16,
-  },
-});

@@ -5,9 +5,9 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
-  Modal
-} from 'react-native';
-import React, { useState } from 'react';
+  Modal,
+} from "react-native";
+import React, { useState } from "react";
 import {
   EditProfileBusinessIcon,
   EditProfileCircle,
@@ -20,21 +20,21 @@ import {
   EditProfileEmailHighLightIcon,
   EditProfilePhoneHighLightIcon,
   EditProfileAddressHighLightIcon,
-} from '../../SVG/Profile/ProfileVectors';
-import Button from '../../component/Button/button';
-import { FormInput } from '../../utilis/Text_input';
-import { useNavigation } from '@react-navigation/native';
-import styles from './style';
-import ImagePicker from 'react-native-image-crop-picker';
-import { CrossIcon } from '../../SVG/Home/Svgs/Icons';
-import PickerButton from '../../component/Button/pickerButton';
+} from "../../assets/svg/SvgIcons";
+import Button from "../../components/Button";
+import { FormInput } from "../../utilis/Text_input";
+import { useNavigation } from "@react-navigation/native";
+import styles from "./style";
+import ImagePicker from "react-native-image-crop-picker";
+import { CrossIcon } from "../../SVG/Home/Svgs/Icons";
+
 const EditProfile = () => {
   const [name, setName] = useState(false);
   const [email, setEmail] = useState();
   const [phone, setPhone] = useState();
   const [address, setAddress] = useState(false);
-  const [text, setText] = useState('Add Profile Picture');
-  const [image, setImage] = useState('');
+  const [text, setText] = useState("Add Profile Picture");
+  const [image, setImage] = useState("");
   const [visible, setVisible] = useState(false);
   const navigation = useNavigation();
 
@@ -44,9 +44,9 @@ const EditProfile = () => {
       width: 100,
       height: 100,
       cropping: true,
-    }).then(image => {
+    }).then((image) => {
       setImage(image.path);
-      setText('Change Profile Picture');
+      setText("Change Profile Picture");
     });
   };
   const takePhotoFromGallery = () => {
@@ -55,12 +55,11 @@ const EditProfile = () => {
       width: 100,
       height: 100,
       cropping: true,
-    }).then(image => {
+    }).then((image) => {
       setImage(image.path);
-      setText('Change Profile Picture');
+      setText("Change Profile Picture");
     });
   };
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -68,11 +67,12 @@ const EditProfile = () => {
         style={{
           height: 30,
           marginTop: 10,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          backgroundColor: '#ffff',
-        }}>
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          backgroundColor: "#ffff",
+        }}
+      >
         <ProfileBackIcon
           style={styles.backIcon}
           onPress={() => navigation.goBack()}
@@ -83,25 +83,27 @@ const EditProfile = () => {
 
       <ScrollView>
         <View style={styles.subContainer}>
-          {image === '' ? (
+          {image === "" ? (
             <View
               style={{
-                overflow: 'hidden',
+                overflow: "hidden",
                 width: 100,
                 height: 100,
                 borderRadius: 100,
-              }}>
+              }}
+            >
               <EditProfileCircle style={styles.circle} />
             </View>
           ) : (
             <>
               <View
                 style={{
-                  overflow: 'hidden',
+                  overflow: "hidden",
                   borderRadius: 100,
                   width: 100,
                   height: 100,
-                }}>
+                }}
+              >
                 <Image source={{ uri: image }} style={styles.circle} />
               </View>
             </>
@@ -118,24 +120,25 @@ const EditProfile = () => {
         <View
           style={[
             styles.forminputView,
-            { borderColor: name ? '#000' : '#F2F3F5' },
-          ]}>
+            { borderColor: name ? "#000" : "#F2F3F5" },
+          ]}
+        >
           {!name ? (
             <EditProfileBusinessIcon style={styles.userIcon} />
           ) : (
             <EditProfileBusinessHighLightIcon style={styles.userIcon} />
           )}
           <FormInput
-            placeholder={'Placeholder text'}
+            placeholder={"Placeholder text"}
             placeholderTextColor="#798293"
-            onChangeText={text => {
+            onChangeText={(text) => {
               setName(text);
             }}
             style={{
               height: 50,
               borderRadius: 10,
               fontSize: 15,
-              color: 'black',
+              color: "black",
             }}
           />
         </View>
@@ -149,18 +152,24 @@ const EditProfile = () => {
         <View
           style={[
             styles.forminputView,
-            { borderColor: email ? '#000' : '#F2F3F5' },
-          ]}>
+            { borderColor: email ? "#000" : "#F2F3F5" },
+          ]}
+        >
           {!email ? (
             <EditProfileEmailIcon style={styles.userIcon} />
           ) : (
             <EditProfileEmailHighLightIcon style={styles.userIcon} />
           )}
           <FormInput
-            placeholder={'Placeholder text'}
+            placeholder={"Placeholder text"}
             placeholderTextColor="#798293"
-            onChangeText={text => setEmail(text)}
-            style={{ height: 50, borderRadius: 10, fontSize: 15, color: 'black' }}
+            onChangeText={(text) => setEmail(text)}
+            style={{
+              height: 50,
+              borderRadius: 10,
+              fontSize: 15,
+              color: "black",
+            }}
           />
         </View>
 
@@ -170,18 +179,24 @@ const EditProfile = () => {
         <View
           style={[
             styles.forminputView,
-            { borderColor: phone ? '#000' : '#F2F3F5' },
-          ]}>
+            { borderColor: phone ? "#000" : "#F2F3F5" },
+          ]}
+        >
           {!phone ? (
             <EditProfilePhoneIcon style={styles.userIcon} />
           ) : (
             <EditProfilePhoneHighLightIcon style={styles.userIcon} />
           )}
           <FormInput
-            placeholder={'Placeholder text'}
+            placeholder={"Placeholder text"}
             placeholderTextColor="#798293"
-            onChangeText={text => setPhone(text)}
-            style={{ height: 50, borderRadius: 10, fontSize: 15, color: 'black' }}
+            onChangeText={(text) => setPhone(text)}
+            style={{
+              height: 50,
+              borderRadius: 10,
+              fontSize: 15,
+              color: "black",
+            }}
           />
         </View>
 
@@ -191,18 +206,24 @@ const EditProfile = () => {
         <View
           style={[
             styles.forminputView,
-            { borderColor: address ? '#000' : '#F2F3F5' },
-          ]}>
+            { borderColor: address ? "#000" : "#F2F3F5" },
+          ]}
+        >
           {!address ? (
             <EditProfileAddressIcon style={styles.userIcon} />
           ) : (
             <EditProfileAddressHighLightIcon style={styles.userIcon} />
           )}
           <FormInput
-            placeholder={'Placeholder text'}
+            placeholder={"Placeholder text"}
             placeholderTextColor="#798293"
-            onChangeText={text => setAddress(text)}
-            style={{ height: 50, borderRadius: 10, fontSize: 15, color: 'black' }}
+            onChangeText={(text) => setAddress(text)}
+            style={{
+              height: 50,
+              borderRadius: 10,
+              fontSize: 15,
+              color: "black",
+            }}
           />
         </View>
         {/* <Modal isVisible={visible}>
@@ -248,18 +269,18 @@ const EditProfile = () => {
       </ScrollView>
       <View>
         <Button
-          text={'Update Detail'}
-          color={'#fff'}
+          text={"Update Detail"}
+          color={"#fff"}
           fontSize={15}
           height={50}
-          width={'80%'}
+          width={"80%"}
           // marginTop={'60%'}
           marginBottom={10}
           backgroundColor={
-            name && email && phone && address && image ? '#4AB5E3' : '#9BA2AE'
+            name && email && phone && address && image ? "#4AB5E3" : "#9BA2AE"
           }
           disabled={name && email && phone && address && image ? false : true}
-        // onPress={onChangeHandler}
+          // onPress={onChangeHandler}
         />
       </View>
     </SafeAreaView>

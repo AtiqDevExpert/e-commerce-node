@@ -1,18 +1,15 @@
 import React from "react";
-import { View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen/HomeScreen";
 import DetailScreen from "../screens/DetailScreen/DetailScreen";
 import CartScreen from "../screens/CartScreen/CartScreen";
 import RegisterScreen from "../screens/RegisterScreen/RegisterScreen";
 import LoginScreen from "../screens/LoginScreen/LoginScreen";
-import ResetPassword from "../screens/ResetPassword/resetPassword";
 import TabScreen from "../Tabs/TabScreen";
-import { LogBox } from "react-native";
 import Resend from "../screens/Resend/resend";
 import EditProfile from "../ButtomTab/EditProfile/EditProfile";
-LogBox.ignoreAllLogs();
+import OtpScreen from "../screens/OtpScreen/OtpScreen";
+
 const Stack = () => {
   const stack = createNativeStackNavigator();
   return (
@@ -39,14 +36,19 @@ const Stack = () => {
       />
       <stack.Screen
         screenOptions={{ headerShown: false }}
-        name="account"
-        component={RegisterScreen}
+        name="otp"
+        component={OtpScreen}
       />
       <stack.Screen
         screenOptions={{ headerShown: false }}
+        name="createAccount"
+        component={RegisterScreen}
+      />
+      {/* <stack.Screen
+        screenOptions={{ headerShown: false }}
         name="resetPassword"
         component={ResetPassword}
-      />
+      /> */}
       <stack.Screen
         screenOptions={{ headerShown: false }}
         name="resend"

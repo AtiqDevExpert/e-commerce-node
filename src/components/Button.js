@@ -1,5 +1,5 @@
-import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import React from "react";
+import { Text, TouchableOpacity } from "react-native";
 
 export const Button = ({
   disabled,
@@ -16,6 +16,7 @@ export const Button = ({
   height,
   width,
   borderWidth,
+  marginVertical,
 }) => {
   return (
     <TouchableOpacity
@@ -24,24 +25,27 @@ export const Button = ({
       style={{
         marginBottom: marginBottom,
         flex: flex,
-        alignSelf: 'center',
+        alignSelf: "center",
         backgroundColor: backgroundColor,
         borderWidth: borderWidth,
         height: height,
         width: width,
         borderRadius: 30,
-        justifyContent: 'center',
+        justifyContent: "center",
         marginTop: marginTop,
         elevation: elevation,
-        borderColor: '#000',
-      }}>
+        borderColor: "#000",
+        marginVertical: marginVertical,
+      }}
+    >
       <Text
         style={{
           color: color,
           fontSize: fontSize,
-          textAlign: 'center',
+          textAlign: "center",
           fontWeight: fontWeight,
-        }}>
+        }}
+      >
         {text}
       </Text>
     </TouchableOpacity>

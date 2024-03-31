@@ -1,123 +1,197 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import { StyleSheet, Dimensions } from "react-native";
+import { Colors } from "../../utilis/colors";
 
 const styles = StyleSheet.create({
-  safeareaview: {
+  container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    position: "relative",
+    justifyContent: "center",
   },
-  view: {
-    flex: 1,
-    marginHorizontal: 15,
+  bigCircle: {
+    width: Dimensions.get("window").height * 0.7,
+    height: Dimensions.get("window").height * 0.7,
+    backgroundColor: "#ff6b81",
+    borderRadius: 1000,
+    position: "absolute",
+    right: Dimensions.get("window").width * 0.25,
+    top: -50,
   },
-  logo: {
-    alignSelf: 'center',
-      marginTop: 30,
-      height: 180,
-    width:200
+  smallCircle: {
+    width: Dimensions.get("window").height * 0.4,
+    height: Dimensions.get("window").height * 0.4,
+    backgroundColor: "#ff7979",
+    borderRadius: 1000,
+    position: "absolute",
+    bottom: Dimensions.get("window").width * -0.2,
+    right: Dimensions.get("window").width * -0.3,
   },
-  text: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#08101F',
-    textAlign: 'center',
-    marginTop: 20,
+  centerizedView: {
+    width: "100%",
+    top: Platform.OS === "android" ? 25 : 25,
   },
-  text1: {
-    fontSize: 15,
-    color: '#798293',
-    textAlign: 'center',
-    marginTop: 8,
+  authBox: {
+    width: "95%",
+    backgroundColor: "#fafafa",
+    borderRadius: 20,
+    alignSelf: "center",
+    paddingHorizontal: 14,
+    paddingBottom: 30,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    paddingHorizontal: 30,
   },
-  text2: {
-    color: '#08101F',
-    fontSize: 14,
-    marginTop: 25,
+  logoBox: {
+    width: 100,
+    height: 100,
+    backgroundColor: "#eb4d4b",
+    borderRadius: 1000,
+    alignSelf: "center",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    top: -50,
+    marginBottom: -50,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
   },
-  forminputView: {
-    height: 50,
-    flexDirection: 'row',
-    borderRadius: 10,
-    borderWidth: 1,
-    marginTop: 5,
-  },
-  userIcon: {
-    marginHorizontal: 10,
-    height: 24,
-    width: 24,
-    alignSelf: 'center',
-    flex: 1,
-  },
-  text3: {
-    color: '#08101F',
-    fontSize: 14,
-    marginTop: 8,
-  },
-  forminputView2: {
-    height: 50,
-    flexDirection: 'row',
-    borderRadius: 10,
-    borderWidth: 1,
-    marginTop: 5,
-  },
-  eyeIcon: {
-    marginHorizontal: 10,
-    height: 24,
-    width: 24,
-    alignSelf: 'center',
-    position: 'absolute',
-    right: 0,
-  },
-  forgot: {
-    color: '#08101F',
+  loginTitleText: {
+    fontSize: 26,
+    fontWeight: "bold",
     marginTop: 10,
-    alignSelf: 'flex-end',
   },
-  or: {
-    color: '#08101F',
-    fontSize: 15,
-    alignSelf: 'center',
-    paddingHorizontal: 5,
+  hr: {
+    width: "100%",
+    height: 0.5,
+    backgroundColor: "#444",
+    marginTop: 6,
   },
-  leftLine: {
-    backgroundColor: '#D7DADF',
-    height: 1,
-    flex: 1,
-    alignSelf: 'center',
+  inputBox: {
+    marginTop: 10,
+    padding: 5,
   },
-  rightLine: {
-    backgroundColor: '#D7DADF',
-    height: 1,
-    flex: 1,
-    alignSelf: 'center',
+  inputLabel: {
+    fontSize: 18,
+    marginBottom: 6,
   },
-  lineView: {
-    flexDirection: 'row',
+  input: {
+    width: "100%",
+    height: 45,
+    backgroundColor: "#dfe4ea",
+    borderRadius: 4,
+    paddingHorizontal: 10,
+    borderWidth: 0.5,
+    borderColor: "#dfe4ea",
+  },
+  loginButton: {
+    backgroundColor: "#ff4757",
+    marginTop: 10,
+    paddingVertical: 10,
+    borderRadius: 4,
+  },
+  loginButtonText: {
+    color: "#fff",
+    textAlign: "center",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  registerText: {
+    textAlign: "center",
+
+    fontSize: 16,
+  },
+  forgotPasswordText: {
+    textAlign: "center",
+    marginTop: 12,
+    fontSize: 16,
+  },
+
+  ModalView: {
+    backgroundColor: "#fff",
+    height: 200,
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    borderRadius: 10,
+  },
+  ModalBtnView: {
+    flexDirection: "row",
     marginTop: 30,
+    width: "100%",
+    justifyContent: "space-evenly",
   },
-  socialview: {
-    flexDirection: 'row',
-    marginTop: 40,
-    justifyContent: 'space-between',
+
+  modalIcon: {
+    width: 18,
+    height: 18,
+    position: "absolute",
+    right: 0,
+    top: 0,
   },
-  footer: {
-    flexDirection: 'row',
-    alignSelf: 'center',
-    marginTop: 40,
-    marginBottom: 20,
+  image: { width: 80, height: 80, borderRadius: 50 },
+  imageBox: {
+    flexDirection: "row-reverse",
+    marginHorizontal: 10,
   },
-  footertext: {
-    fontSize: 15,
-    color: '#D7DADF',
+  touchable: {
+    marginTop: -10,
+    height: 15,
+    marginLeft: -10,
   },
-  footertext2: {
-    fontSize: 15,
-    color: '#4AB5E3',
-    paddingHorizontal: 5,
+  imageContainer: {
+    justifyContent: "center",
   },
-  textemail: {
-    color: '#08101F',
-    fontSize: 14,
-    marginTop: 8,
+
+  coverView: {
+    backgroundColor: Colors.white,
+    height: 80,
+    width: 80,
+    borderRadius: 100,
+    borderWidth: 1,
+    borderColor: Colors.hiddenText,
+
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  touch1: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  uploadIcon: { height: 30, width: 30 },
+
+  crossRedIcon: {
+    height: 30,
+    width: 30,
+    bottom: 18,
+    marginRight: -12,
+  },
+  crossRedIcon2: {
+    height: 30,
+    width: 30,
+    // top: 5,
+    marginRight: -16,
+  },
+  passwordInputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  eyeIconContainer: {
+    position: "absolute",
+    right: 0,
+    paddingRight: 10,
   },
 });
 export default styles;

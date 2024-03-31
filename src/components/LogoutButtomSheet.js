@@ -1,9 +1,8 @@
-import React from 'react';
-import { Text, View, SafeAreaView, StyleSheet } from 'react-native';
-// import {CrossIcon} from '../../SVG/Home/Svgs/Icons';
-import { ProfileDotsIcon } from '../../SVG/Profile/ProfileVectors';
-import Button from '../Button/button';
-import { useNavigation } from '@react-navigation/native';
+import React from "react";
+import { Text, View, SafeAreaView, StyleSheet } from "react-native";
+
+import { useNavigation } from "@react-navigation/native";
+import Button from "./Button";
 
 const LogoutButtomSheet = ({ onPress, cancel }) => {
   const navigation = useNavigation();
@@ -18,19 +17,21 @@ const LogoutButtomSheet = ({ onPress, cancel }) => {
         <View style={styles.border}>
           <View
             style={{
-              flexDirection: 'row',
+              flexDirection: "row",
               marginTop: 20,
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Text
                 style={{
                   fontSize: 20,
-                  color: '#08101F',
+                  color: "#08101F",
                   marginHorizontal: 5,
-                  fontWeight: '600',
-                }}>
+                  fontWeight: "600",
+                }}
+              >
                 Logout from gymble
               </Text>
             </View>
@@ -39,15 +40,17 @@ const LogoutButtomSheet = ({ onPress, cancel }) => {
 
         <View
           style={{
-            flexDirection: 'row',
+            flexDirection: "row",
             marginTop: 20,
-            alignItems: 'center',
-            justifyContent: 'space-between',
+            alignItems: "center",
+            justifyContent: "space-between",
             marginHorizontal: 20,
-          }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          }}
+        >
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Text
-              style={{ fontSize: 15, color: '#08101F', marginHorizontal: 20 }}>
+              style={{ fontSize: 15, color: "#08101F", marginHorizontal: 20 }}
+            >
               Sorry to see you leave. Are you sure you would like to logout your
               gymble account?
             </Text>
@@ -55,34 +58,35 @@ const LogoutButtomSheet = ({ onPress, cancel }) => {
         </View>
         <View
           style={{
-            justifyContent: 'space-around',
-            flexDirection: 'row',
+            justifyContent: "space-around",
+            flexDirection: "row",
             marginVertical: 10,
-          }}>
+          }}
+        >
           <View>
             <Button
-              text={'Logout'}
-              color={'#4AB5E3'}
+              text={"Logout"}
+              color={"#4AB5E3"}
               fontSize={15}
               height={50}
               width={160}
               borderWidth={1}
               marginTop={10}
-              backgroundColor={'#fff'}
+              backgroundColor={"#fff"}
               marginBottom={10}
-              onPress={() => navigation.navigate('Welcome')}
+              onPress={() => navigation.navigate("Welcome")}
             />
           </View>
           <View>
             <Button
-              text={'Cancel'}
-              color={'#FFF'}
+              text={"Cancel"}
+              color={"#FFF"}
               fontSize={15}
               height={50}
               width={160}
               borderWidth={1}
               marginTop={10}
-              backgroundColor={'#4AB5E3'}
+              backgroundColor={"#4AB5E3"}
               marginBottom={10}
               onPress={cancel}
             />
@@ -95,21 +99,21 @@ const LogoutButtomSheet = ({ onPress, cancel }) => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     marginVertical: 15,
     marginHorizontal: 10,
   },
   subContainer: {
     height: 30,
     marginTop: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#ffff',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#ffff",
     marginHorizontal: 20,
   },
   backIcon: {
@@ -118,11 +122,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   text: {
-    color: 'black',
-    textAlign: 'center',
+    color: "black",
+    textAlign: "center",
     fontSize: 15,
-    alignSelf: 'center',
-    fontWeight: '500',
+    alignSelf: "center",
+    fontWeight: "500",
   },
   dotsIcon: {
     width: 0,

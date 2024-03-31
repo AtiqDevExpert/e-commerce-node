@@ -7,7 +7,7 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>en</string>
     <key>CFBundleDisplayName</key>
-    <string>E_Commerce</string>
+    <string>E Commerce</string>
     <key>CFBundleExecutable</key>
     <string>$(EXECUTABLE_NAME)</string>
     <key>CFBundleIdentifier</key>
@@ -76,47 +76,25 @@
     <key>NSCalendarsUsageDescription</key>
 <string>This app requires access to the calendar</string>
 
-    <key>UIAppFonts</key>
-    <array>
-        <string>SF-Compact-Display-Black.ttf</string>
-        <string>SF-Compact-Display-Bold.ttf</string>
-        <string>SF-Compact-Display-Heavy.ttf</string>
-        <string>SF-Compact-Display-Light.ttf</string>
-        <string>SF-Compact-Display-Medium.ttf</string>
-        <string>SF-Compact-Display-Regular.ttf</string>
-        <string>SF-Compact-Display-Semibold.ttf</string>
-        <string>SF-Compact-Display-Thin.ttf</string>
-        <string>SF-Compact-Display-Ultralight.ttf</string>
-        <string>SF-Compact-Italic.ttf</string>
-        <string>SF-Compact-Rounded-Black.ttf</string>
-        <string>SF-Compact-Rounded-Bold.ttf</string>
-        <string>SF-Compact-Rounded-Heavy.ttf</string>
-        <string>SF-Compact-Rounded-Light.ttf</string>
-        <string>SF-Compact-Rounded-Medium.ttf</string>
-        <string>SF-Compact-Rounded-Regular.ttf</string>
-        <string>SF-Compact-Rounded-Semibold.ttf</string>
-        <string>SF-Compact-Rounded-Thin.ttf</string>
-        <string>SF-Compact-Rounded-Ultralight.ttf</string>
-        <string>SF-Compact-Text-Black.ttf</string>
-        <string>SF-Compact-Text-BlackItalic.ttf</string>
-        <string>SF-Compact-Text-Bold.ttf</string>
-        <string>SF-Compact-Text-BoldItalic.ttf</string>
-        <string>SF-Compact-Text-Heavy.ttf</string>
-        <string>SF-Compact-Text-HeavyItalic.ttf</string>
-        <string>SF-Compact-Text-Light.ttf</string>
-        <string>SF-Compact-Text-LightItalic.ttf</string>
-        <string>SF-Compact-Text-Medium.ttf</string>
-        <string>SF-Compact-Text-MediumItalic.ttf</string>
-        <string>SF-Compact-Text-Regular.ttf</string>
-        <string>SF-Compact-Text-RegularItalic.ttf</string>
-        <string>SF-Compact-Text-Semibold.ttf</string>
-        <string>SF-Compact-Text-SemiboldItalic.ttf</string>
-        <string>SF-Compact-Text-Thin.ttf</string>
-        <string>SF-Compact-Text-ThinItalic.ttf</string>
-        <string>SF-Compact-Text-Ultralight.ttf</string>
-        <string>SF-Compact-Text-UltralightItalic.ttf</string>
-        <string>SF-Compact.ttf</string>
-    </array>
+   <key>UIAppFonts</key>
+	<array>
+		<string>AntDesign.ttf</string>
+		<string>Entypo.ttf</string>
+		<string>EvilIcons.ttf</string>
+		<string>Feather.ttf</string>
+		<string>FontAwesome.ttf</string>
+		<string>FontAwesome5_Brands.ttf</string>
+		<string>FontAwesome5_Regular.ttf</string>
+		<string>FontAwesome5_Solid.ttf</string>
+		<string>Fontisto.ttf</string>
+		<string>Foundation.ttf</string>
+		<string>Ionicons.ttf</string>
+		<string>MaterialCommunityIcons.ttf</string>
+		<string>MaterialIcons.ttf</string>
+		<string>Octicons.ttf</string>
+		<string>SimpleLineIcons.ttf</string>
+		<string>Zocial.ttf</string>
+	</array>
     <key>UIBackgroundModes</key>
     <array>
         <string>fetch</string>

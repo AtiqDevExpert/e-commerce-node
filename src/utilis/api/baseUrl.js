@@ -1,3 +1,3 @@
-const URL = "https://www.api.assemble.social/api/";
+const URL = "https://real-erin-lobster-hem.cyclic.app/api/";
 
 export default URL;

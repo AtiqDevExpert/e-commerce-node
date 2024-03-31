@@ -1,62 +1,7 @@
-import { Dimensions, StyleSheet } from "react-native";
-const styles = StyleSheet.create({
-  carouselItem: {
-    width: 100,
-    height: 100,
-    borderRadius: 10,
-    elevation: 5,
-    overflow: "hidden",
-    shadowColor: "#ff0",
-    shadowOffset: {
-      width: 6,
-      height: 6,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.5,
-    marginHorizontal: 10,
-  },
-  itemName: {
-    position: "absolute",
-    bottom: 10,
-    left: 10,
-    color: "#000",
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  imageView: { width: 100, height: 100, borderRadius: 10 },
-  header: {
-    color: "#000",
-    fontSize: 30,
-    marginHorizontal: 10,
-    fontWeight: "bold",
-    marginVertical: 5,
-  },
-  headerMore: {
-    color: "#000",
-    fontSize: 30,
-    marginHorizontal: 10,
-    fontWeight: "bold",
-    marginVertical: 5,
-  },
-  flatlItem: {
-    width: 80,
-    height: 80,
-    borderRadius: 10,
-    elevation: 50,
-    shadowColor: "#ff0",
-    shadowOffset: {
-      width: 6,
-      height: 6,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.5,
-    marginVertical: 10,
-    alignSelf: "center",
-    marginHorizontal: 5,
-    backgroundColor: "#000",
-  },
-  flatImage: { width: 80, height: 80, borderRadius: 10 },
+import { StyleSheet, Dimensions } from "react-native";
+import { Colors } from "../../utilis/colors";
 
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     position: "relative",
@@ -81,11 +26,12 @@ const styles = StyleSheet.create({
     right: Dimensions.get("window").width * -0.3,
   },
   centerizedView: {
-    flex: 1,
+    width: "100%",
+    top: Platform.OS === "android" ? 25 : 25,
   },
   authBox: {
-    width: "100%",
-    backgroundColor: "transparent",
+    width: "95%",
+    backgroundColor: "#fafafa",
     borderRadius: 20,
     alignSelf: "center",
     paddingHorizontal: 14,
@@ -99,7 +45,6 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     paddingHorizontal: 30,
-    flex: 1,
   },
   logoBox: {
     width: 100,
@@ -120,8 +65,34 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
     elevation: 2,
-
-    overflow: "hidden",
   },
+  loginTitleText: {
+    fontSize: 26,
+    fontWeight: "bold",
+    marginTop: 10,
+  },
+  hr: {
+    width: "100%",
+    height: 0.5,
+    backgroundColor: "#444",
+    marginTop: 6,
+  },
+  root: { flex: 1, padding: 20 },
+
+  codeFieldRoot: { marginTop: 20 },
+  cell: {
+    width: 45,
+    height: 50,
+    lineHeight: 45,
+    fontSize: 24,
+    borderWidth: 1,
+    borderColor: "#00000030",
+    textAlign: "center",
+  },
+  focusCell: {
+    borderColor: Colors.dangerColor,
+    borderWidth: 2,
+  },
+  image: { width: 80, height: 80, borderRadius: 50 },
 });
 export default styles;

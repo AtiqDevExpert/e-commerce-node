@@ -5,15 +5,16 @@ import firebase from "@react-native-firebase/app";
 LogBox.ignoreLogs(["VirtualizedLists", "Warning:..."]);
 LogBox.ignoreAllLogs();
 import firebaseConfig from "./src/utilis/config";
-import Stack from "./src/Stack/Stack";
+
 import { Provider } from "react-redux";
 import { LogBox } from "react-native";
+import Stack from "./src/Stack/Stack";
 if (!firebase.apps.length) {
   firebase.initializeApp({ firebaseConfig });
 } else {
-  firebase.app(); // if already initialized, use that one
+  firebase.app();
 }
-console.log(firebase.apps.length);
+
 const App = () => {
   return (
     <NavigationContainer>

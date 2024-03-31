@@ -12,24 +12,20 @@ import {
 import styles from "./style";
 import items from "./ProductList";
 import React, { useState, useEffect } from "react";
-import Header from "../../component/Header/Header";
+
 import { Rating } from "react-native-ratings";
-import Button from "../../component/Button/button";
 
 import { useDispatch } from "react-redux";
+import Button from "../../components/Button";
 
 const DetailScreen = ({ navigation, route }) => {
   const [item, setItem] = useState(route.params.item);
 
-  const dispatch = useDispatch();
-
   const fun = (item) => {
-    dispatch();
     navigation.navigate("Cart", { item });
   };
   return (
     <SafeAreaView style={styles.container}>
-      <Header />
       <ScrollView>
         <View
           style={{
@@ -74,14 +70,6 @@ const DetailScreen = ({ navigation, route }) => {
             </View>
             <View>
               <Button
-                onPress={() => {
-                  dispatch(
-                    setOrigin({
-                      itemid: 4,
-                    })
-                  );
-                  fun(item);
-                }}
                 text={"Add to Cart"}
                 color={"#000"}
                 fontSize={20}

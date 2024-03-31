@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Radio } from "native-base";
 import {
   Text,
   View,
@@ -12,7 +11,7 @@ import {
   ScrollView,
 } from "react-native";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-import Button from "../../component/Button/button";
+import Button from "../../components/Button";
 import styles from "./style";
 import { useSelector } from "react-redux";
 const CartScreen = ({ navigation }) => {
@@ -201,10 +200,6 @@ const CartScreen = ({ navigation }) => {
                     }}
                   >
                     <Text style={styles.shippingItemText}>Normal (Free)</Text>
-                    <Radio
-                      color="#000"
-                      selected={shippingMethod === "Normal"}
-                    />
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.shippingItem}
@@ -215,10 +210,6 @@ const CartScreen = ({ navigation }) => {
                     <Text style={styles.shippingItemText}>
                       Urgetn (PKR-600)
                     </Text>
-                    <Radio
-                      color="#000"
-                      selected={shippingMethod === "Express"}
-                    />
                   </TouchableOpacity>
                 </View>
               </View>

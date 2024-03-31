@@ -5,6 +5,8 @@ import {
   View,
   TouchableOpacity,
   Alert,
+  SafeAreaView,
+  Platform,
 } from "react-native";
 import HomeScreen from "../screens/HomeScreen/HomeScreen";
 import Settings from "../screens/Setting/Settings";
@@ -12,19 +14,21 @@ import CartScreen from "../screens/CartScreen/CartScreen";
 import Profile from "../ButtomTab/Profile/profile";
 import { CurvedBottomBar } from "react-native-curved-bottom-bar";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { Colors } from "../utilis/colors";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 const _renderIcon = (routeName, selectedTab) => {
   let icon = "";
 
   switch (routeName) {
     case "Home":
-      icon = "ios-home-outline";
+      icon = "home";
       break;
     case "title2":
-      icon = "settings-outline";
+      icon = "gear";
       break;
     case "Cart":
-      icon = "cart";
+      icon = "shopping-cart";
       break;
     case "Profile":
       icon = "users";
@@ -34,10 +38,10 @@ const _renderIcon = (routeName, selectedTab) => {
       break;
   }
   return (
-    <Ionicons
+    <FontAwesome
       name={icon}
       size={25}
-      color={routeName === selectedTab ? "black" : "gray"}
+      color={routeName === selectedTab ? Colors.white : Colors.gray}
     />
   );
 };
@@ -58,14 +62,18 @@ const renderTabBar = ({ routeName, selectedTab, navigate }) => {
 
 const TabScreen = () => {
   return (
-    <View style={{ flex: 1 }}>
+    <View
+      style={{
+        flex: 1,
+      }}
+    >
       <CurvedBottomBar.Navigator
         style={styles.bottomBar}
         initialRouteName="Home"
         strokeWidth={0.5}
-        height={55}
+        height={65}
         circleWidth={55}
-        bgColor="white"
+        bgColor={Colors.dangerColor}
         borderTopLeftRight
         renderCircle={({ selectedTab, navigate }) => (
           <Animated.View style={styles.btnCircle}>
