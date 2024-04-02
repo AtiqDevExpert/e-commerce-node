@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -20,7 +20,11 @@ import {
   useBlurOnFulfill,
   useClearByFocusCell,
 } from "react-native-confirmation-code-field";
-import { resend_Otp, verify_Otp } from "../../utilis/api/Requests";
+import {
+  resend_Otp,
+  verify_Otp_new_password,
+  verify_Otp_register,
+} from "../../utilis/api/Requests";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const CELL_COUNT = 4;
 const OtpScreen = ({ navigation }) => {
@@ -33,39 +37,57 @@ const OtpScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
 
   const onHandleVerifyOtp = async () => {
-    setLoading(true);
     const body = {
       otp: value,
     };
-    const userID = await AsyncStorage.getItem("USER_ID");
-    console.log("verify_Otp===== > ", body, userID);
+    if (body.otp.length > 0) {
+      setLoading(true);
+      const data = await AsyncStorage.getItem("ROUTE_INFO");
+      const finalData = JSON.parse(data);
+      console.log("verify_Otp===== > ", finalData);
 
-    try {
-      let response = await verify_Otp(userID, body);
-      console.log("response ==== > ", response);
-      Toast.show("User Registered Successfully", Toast.LONG);
+      try {
+        if (finalData.route === "register") {
+          const id = finalData.userID;
+          const response = await verify_Otp_register(id, body);
+          console.log("response ==== > ", response);
+          Toast.show(response.message, Toast.LONG);
+          navigation.navigate("login");
+          AsyncStorage.removeItem("ROUTE_INFO");
+          setLoading(false);
+        } else {
+          const userID = finalData?.userID;
+          const response = await verify_Otp_new_password(userID, body);
+          console.log("response ==== > ", response);
+          Toast.show(response.message, Toast.LONG);
+          navigation.navigate("createPassword");
+          AsyncStorage.removeItem("ROUTE_INFO");
+          AsyncStorage.setItem("USER_ID", response.id);
 
-      navigation.navigate("login");
-      setLoading(false);
-    } catch (error) {
-      console.error("Error signing up:", error);
-      Toast.show(error.message, Toast.LONG);
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error("Error signing up:", error);
+        Toast.show(error.message, Toast.LONG);
+        setLoading(false);
+      }
+    } else {
+      Toast.show("Please Enter Otp", Toast.LONG);
       setLoading(false);
     }
   };
   const onHandleResendOtp = async () => {
     setLoading(true);
-    const body = {
-      otp: value,
-    };
 
-    console.log("resend_Otp ===== > ", body);
-
+    const data = await AsyncStorage.getItem("ROUTE_INFO");
+    const finalData = JSON.parse(data);
+    console.log("finalData ==== > ", finalData);
     try {
-      let response = await resend_Otp(body);
+      const userID = finalData.userID;
+      let response = await resend_Otp(userID);
       console.log("response ==== > ", response);
-      Toast.show("User Registered Successfully", Toast.LONG);
-      navigation.navigate("login");
+      Toast.show(response.message, Toast.LONG);
+
       setLoading(false);
     } catch (error) {
       console.error("Error verify up:", error);
@@ -93,7 +115,7 @@ const OtpScreen = ({ navigation }) => {
                   resizeMode={FastImage.resizeMode.contain}
                 />
               </View>
-              <Text style={styles.loginTitleText}>Verification OTP</Text>
+              <Text style={styles.loginTitleText}>OTP Verification</Text>
               <View style={styles.hr}></View>
 
               <CodeField

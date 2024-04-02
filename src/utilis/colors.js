@@ -4,6 +4,7 @@ export const Colors = {
   secondry: "#8B8B8B",
   textblack: "#323232",
   dangerColor: "#ff4757",
+  dangerColor2: "#ff6b81",
   white: "#fff",
   graywhite: "#F5F5F5",
   borderColor: "#0277FA66",
@@ -29,7 +30,7 @@ export const Colors = {
   blue: "#5f82e6",
   red: "red",
   tranparent: "rgba(0,0,0,0)",
-  popUpBackgroundColor: "rgba(0, 0, 0, 0.5)",
+  popUpBackgroundColor: "rgba(0, 0, 0, 0.1)",
   gray: "#dfe4ea",
   green: "green",
 };

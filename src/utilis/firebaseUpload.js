@@ -11,7 +11,7 @@ const currentDateTime = () => {
   const dateTime = date + " " + time;
   return dateTime;
 };
-const firebaseUploader = async (file, folderName) => {
+const firebaseUploader = async (file) => {
   const { path } = file;
   let task;
   let downloadURL;
@@ -21,7 +21,7 @@ const firebaseUploader = async (file, folderName) => {
     const uploadPath =
       Platform.OS === "ios" ? path.replace("file://", "") : path;
 
-    task = storage().ref(`${folderName}/${filename}`).putFile(uploadPath);
+    task = storage().ref(`${filename}`).putFile(uploadPath);
 
     task.on("state_changed", (snapshot) => {
       console.log(snapshot);
@@ -29,9 +29,7 @@ const firebaseUploader = async (file, folderName) => {
 
     try {
       await task;
-      downloadURL = await storage()
-        .ref(`${folderName}/${filename}`)
-        .getDownloadURL();
+      downloadURL = await storage().ref(`${filename}`).getDownloadURL();
 
       console.log("Download URL:", downloadURL);
 

@@ -26,11 +26,11 @@ import PhoneNumberInput from "../../components/PhoneNumberInput";
 import { SignUp_Request } from "../../utilis/api/Requests";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const RegisterScreen = ({ navigation }) => {
-  const [name, setName] = useState("Atiq Ur Rehman");
+  const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [emailValue, setEmailValue] = useState("princeatiqk@gmail.com");
-  const [passwordValue, setPasswordValue] = useState("12345678");
-  const [confirmPasswordValue, setConfirmPasswordValue] = useState("12345678");
+  const [emailValue, setEmailValue] = useState("");
+  const [passwordValue, setPasswordValue] = useState("");
+  const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
   const [selecter, setSelecter] = useState(false);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -67,7 +67,11 @@ const RegisterScreen = ({ navigation }) => {
       try {
         let response = await SignUp_Request(body);
         console.log("response ==== > ", response);
-        await AsyncStorage.setItem("USER_ID", response.id);
+        const data = {
+          userID: response.id,
+          route: "register",
+        };
+        await AsyncStorage.setItem("ROUTE_INFO", JSON.stringify(data));
         Toast.show("User Registered Successfully", Toast.LONG);
 
         navigation.navigate("otp");
@@ -80,7 +84,6 @@ const RegisterScreen = ({ navigation }) => {
     }
   };
   const takePhotoFromCamera = () => {
-    const folderName = "users";
     ImagePicker.openCamera({
       width: 300,
       height: 400,
@@ -88,7 +91,7 @@ const RegisterScreen = ({ navigation }) => {
       if (selecter === false) {
         setVisible(false);
         setLoading(true);
-        const result = await firebaseUploader(image, folderName);
+        const result = await firebaseUploader(image);
         setImage(result);
         setSelecter(false);
         setLoading(false);
@@ -100,7 +103,6 @@ const RegisterScreen = ({ navigation }) => {
     });
   };
   const takePhotoFromGallery = () => {
-    const folderName = "users";
     ImagePicker.openPicker({
       width: 300,
       height: 400,
@@ -108,7 +110,7 @@ const RegisterScreen = ({ navigation }) => {
       if (selecter === false) {
         setVisible(false);
         setLoading(true);
-        const result = await firebaseUploader(image, folderName);
+        const result = await firebaseUploader(image);
         setImage(result);
         setSelecter(false);
         setLoading(false);

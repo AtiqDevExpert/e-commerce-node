@@ -175,7 +175,7 @@ const Profile = () => {
                 borderTopLeftRadius: 20,
                 borderTopRightRadius: 20,
                 backgroundColor: "#FFFFFF",
-                height: "35%",
+                height: "27%",
               },
             }}
           >

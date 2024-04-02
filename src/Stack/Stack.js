@@ -9,6 +9,9 @@ import TabScreen from "../Tabs/TabScreen";
 import Resend from "../screens/Resend/resend";
 import EditProfile from "../ButtomTab/EditProfile/EditProfile";
 import OtpScreen from "../screens/OtpScreen/OtpScreen";
+import ForgetPasswordScreen from "../screens/ForgetPasswordScreen/ForgetPasswordScreen";
+import CreateNewPassswordScreen from "../screens/CreateNewPassswordScreen/CreateNewPassswordScreen";
+import CreateProductScreen from "../ButtomTab/CreateProductScreen/CreateProductScreen";
 
 const Stack = () => {
   const stack = createNativeStackNavigator();
@@ -44,15 +47,21 @@ const Stack = () => {
         name="createAccount"
         component={RegisterScreen}
       />
-      {/* <stack.Screen
-        screenOptions={{ headerShown: false }}
-        name="resetPassword"
-        component={ResetPassword}
-      /> */}
+
       <stack.Screen
         screenOptions={{ headerShown: false }}
-        name="resend"
-        component={Resend}
+        name="createProduct"
+        component={CreateProductScreen}
+      />
+      <stack.Screen
+        screenOptions={{ headerShown: false }}
+        name="forget"
+        component={ForgetPasswordScreen}
+      />
+      <stack.Screen
+        screenOptions={{ headerShown: false }}
+        name="createPassword"
+        component={CreateNewPassswordScreen}
       />
       <stack.Screen
         screenOptions={{ headerShown: false }}

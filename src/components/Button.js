@@ -17,6 +17,7 @@ export const Button = ({
   width,
   borderWidth,
   marginVertical,
+  borderColor,
 }) => {
   return (
     <TouchableOpacity
@@ -34,7 +35,7 @@ export const Button = ({
         justifyContent: "center",
         marginTop: marginTop,
         elevation: elevation,
-        borderColor: "#000",
+        borderColor: borderColor,
         marginVertical: marginVertical,
       }}
     >

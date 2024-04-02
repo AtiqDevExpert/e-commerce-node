@@ -16,6 +16,7 @@ import { CurvedBottomBar } from "react-native-curved-bottom-bar";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { Colors } from "../utilis/colors";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { useSelector } from "react-redux";
 
 const _renderIcon = (routeName, selectedTab) => {
   let icon = "";
@@ -24,8 +25,8 @@ const _renderIcon = (routeName, selectedTab) => {
     case "Home":
       icon = "home";
       break;
-    case "title2":
-      icon = "gear";
+    case "Settings":
+      icon = "first-order";
       break;
     case "Cart":
       icon = "shopping-cart";
@@ -61,6 +62,7 @@ const renderTabBar = ({ routeName, selectedTab, navigate }) => {
 };
 
 const TabScreen = () => {
+  const userData = useSelector((state) => state?.loginUser?.data?.data);
   return (
     <View
       style={{
@@ -82,7 +84,7 @@ const TabScreen = () => {
                 flex: 1,
                 justifyContent: "center",
               }}
-              onPress={() => navigate("Home")}
+              onPress={() => navigate("createProduct")}
             >
               <Ionicons name={"apps-sharp"} color="gray" size={25} />
             </TouchableOpacity>
@@ -104,7 +106,7 @@ const TabScreen = () => {
         />
         <CurvedBottomBar.Screen
           options={{ headerShown: false }}
-          name="title2"
+          name="Settings"
           component={Settings}
           position="RIGHT"
         />

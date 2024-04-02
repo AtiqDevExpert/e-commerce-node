@@ -74,7 +74,7 @@ const LogoutButtomSheet = ({ onPress, cancel }) => {
               marginTop={10}
               backgroundColor={"#fff"}
               marginBottom={10}
-              onPress={() => navigation.navigate("Welcome")}
+              onPress={() => navigation.navigate("login")}
             />
           </View>
           <View>

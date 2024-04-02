@@ -22,17 +22,21 @@ import Toast from "react-native-root-toast";
 import Loading from "../../components/Loading";
 import { Login_Request } from "../../utilis/api/Requests";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { loginUser } from "../../redux/slices/user";
+import { useDispatch, useSelector } from "react-redux";
 const LoginScreen = ({ navigation }) => {
-  const [emailValue, setEmailValue] = useState("");
-  const [passwordValue, setPasswordValue] = useState("");
+  const state = useSelector((state) => state?.loginUser);
+  const dispatch = useDispatch();
+  const [emailValue, setEmailValue] = useState("princeatiqk@gmail.com");
+  const [passwordValue, setPasswordValue] = useState("12345678");
   const [secureTextEntry, setSecureTextEntry] = useState(true);
-  const [loading, setLoading] = useState(false);
   const handleCreateAccount = () => {
     navigation.navigate("createAccount");
   };
+  const handleForgetPAssword = () => {
+    navigation.navigate("forget");
+  };
   const onHandleLogin = async () => {
-    setLoading(true);
     const body = {
       email: emailValue,
       password: passwordValue,
@@ -43,21 +47,20 @@ const LoginScreen = ({ navigation }) => {
       alert(
         "Invalid Credential! Please check your email has @ and password should be 8 or greater than 8 characters"
       );
-      setLoading(false);
     } else {
       try {
-        let response = await Login_Request(body);
+        let response = await dispatch(loginUser(body));
         console.log("response ==== > ", response);
-        await AsyncStorage.setItem("USER_TOKEN", response.token);
-        await AsyncStorage.setItem("USER_INFO", JSON.stringify(response.data));
-        Toast.show("Successfully Login", Toast.LONG);
+        if (response?.payload?.user) {
+          Toast.show("Successfully Login", Toast.LONG);
 
-        navigation.navigate("tabs");
-        setLoading(false);
+          navigation.navigate("tabs");
+        } else {
+          Toast.show(response.message, Toast.LONG);
+        }
       } catch (error) {
         console.error("Error Login :", error);
         Toast.show(error.message, Toast.LONG);
-        setLoading(false);
       }
     }
   };
@@ -118,7 +121,7 @@ const LoginScreen = ({ navigation }) => {
                     />
                   </TouchableOpacity>
                 </View>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={handleForgetPAssword}>
                   <Text style={styles.forgotPasswordText}>
                     Forgot Password?
                   </Text>
@@ -169,7 +172,7 @@ const LoginScreen = ({ navigation }) => {
               </View>
             </View>
           </View>
-          {loading && <Loading />}
+          {state?.isLoading && <Loading />}
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAwareScrollView>
