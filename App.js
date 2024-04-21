@@ -9,7 +9,8 @@ import firebaseConfig from "./src/utilis/config";
 import { Provider } from "react-redux";
 import { LogBox } from "react-native";
 import Stack from "./src/Stack/Stack";
-import { store } from "./src/redux/store";
+import store from "./src/redux/store";
+
 if (!firebase.apps.length) {
   firebase.initializeApp({ firebaseConfig });
 } else {

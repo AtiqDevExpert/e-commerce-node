@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -24,8 +24,11 @@ import { Login_Request } from "../../utilis/api/Requests";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { loginUser } from "../../redux/slices/user";
 import { useDispatch, useSelector } from "react-redux";
+
+import { fetchUserData } from "../../redux/actions/userAction";
 const LoginScreen = ({ navigation }) => {
-  const state = useSelector((state) => state?.loginUser);
+  const state = useSelector((state) => state);
+
   const dispatch = useDispatch();
   const [emailValue, setEmailValue] = useState("princeatiqk@gmail.com");
   const [passwordValue, setPasswordValue] = useState("12345678");
@@ -36,27 +39,25 @@ const LoginScreen = ({ navigation }) => {
   const handleForgetPAssword = () => {
     navigation.navigate("forget");
   };
+
   const onHandleLogin = async () => {
     const body = {
       email: emailValue,
       password: passwordValue,
     };
-
-    console.log("Login body ===== > ", body);
-    if (!body.email.includes("@") || body.password.length < 8) {
+    if (!body?.email.includes("@") || body?.password.length < 8) {
       alert(
         "Invalid Credential! Please check your email has @ and password should be 8 or greater than 8 characters"
       );
     } else {
       try {
-        let response = await dispatch(loginUser(body));
-        console.log("response ==== > ", response);
-        if (response?.payload?.user) {
-          Toast.show("Successfully Login", Toast.LONG);
+        const response = await dispatch(fetchUserData(body));
 
-          navigation.navigate("tabs");
-        } else {
+        if (response.user) {
           Toast.show(response.message, Toast.LONG);
+          navigation.navigate("Home");
+        } else {
+          Toast.show(payload.message, Toast.LONG);
         }
       } catch (error) {
         console.error("Error Login :", error);
@@ -64,6 +65,7 @@ const LoginScreen = ({ navigation }) => {
       }
     }
   };
+
   return (
     <KeyboardAwareScrollView
       contentContainerStyle={styles.container}

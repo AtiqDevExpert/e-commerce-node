@@ -140,4 +140,5 @@ const styles = StyleSheet.create({
   },
   icon: { height: 18, width: 16 },
 });
+
 export default LogoutButtomSheet;

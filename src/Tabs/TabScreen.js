@@ -7,6 +7,7 @@ import {
   Alert,
   SafeAreaView,
   Platform,
+  Text,
 } from "react-native";
 import HomeScreen from "../screens/HomeScreen/HomeScreen";
 import Settings from "../screens/Setting/Settings";
@@ -39,11 +40,13 @@ const _renderIcon = (routeName, selectedTab) => {
       break;
   }
   return (
-    <FontAwesome
-      name={icon}
-      size={25}
-      color={routeName === selectedTab ? Colors.white : Colors.gray}
-    />
+    <>
+      <FontAwesome
+        name={icon}
+        size={25}
+        color={routeName === selectedTab ? Colors.white : Colors.gray}
+      />
+    </>
   );
 };
 const renderTabBar = ({ routeName, selectedTab, navigate }) => {
@@ -62,7 +65,6 @@ const renderTabBar = ({ routeName, selectedTab, navigate }) => {
 };
 
 const TabScreen = () => {
-  const userData = useSelector((state) => state?.loginUser?.data?.data);
   return (
     <View
       style={{
@@ -98,18 +100,7 @@ const TabScreen = () => {
           position="LEFT"
           component={HomeScreen}
         />
-        <CurvedBottomBar.Screen
-          options={{ headerShown: false }}
-          position="LEFT"
-          name="Cart"
-          component={CartScreen}
-        />
-        <CurvedBottomBar.Screen
-          options={{ headerShown: false }}
-          name="Settings"
-          component={Settings}
-          position="RIGHT"
-        />
+
         <CurvedBottomBar.Screen
           options={{ headerShown: false }}
           name="Profile"

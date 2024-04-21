@@ -15,58 +15,68 @@ import styles from "./style";
 import Loading from "../../components/Loading";
 import Headers from "../../components/Header";
 import Toast from "react-native-root-toast";
-import FastImage from "react-native-fast-image";
 import { fetchAllCategories } from "../../redux/slices/categories";
 import SearchBar from "../../components/SearchBar";
 import { Colors } from "../../utilis/colors";
+import ProductItem from "../../components/ProductItem";
+import sizeHelper from "../../utilis/sizeHelper";
+import {
+  fetchProductsCategories,
+  fetchProductsData,
+} from "../../redux/actions/allProductsAction";
+import { addToCart } from "../../redux/actions/cart";
 
 const HomeScreen = () => {
-  const products = useSelector((state) => state.product?.data);
-  const userData = useSelector((state) => state?.loginUser?.data?.user);
-  const productCategories = useSelector(
-    (state) => state?.productsCategories?.data?.Categories
+  const navigation = useNavigation();
+  const state = useSelector((state) => state);
+
+  const products = useSelector((state) => state?.data?.allProducts?.products);
+  const categories = useSelector(
+    (state) => state?.data?.allCategories?.Categories
   );
+
+  const userData = useSelector((state) => state?.data?.userData?.user);
+
   const [searchText, setSearchText] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
 
   const dispatch = useDispatch();
   useFocusEffect(
     React.useCallback(() => {
-      try {
-        dispatch(fetchAllProducts(userData?.token));
-        dispatch(fetchAllCategories());
-      } catch (error) {
-        console.error("Error signing up:", error);
-        Toast.show(products.errorMessage, Toast.LONG);
-      }
+      fetchData();
     }, [])
   );
+  const fetchData = async () => {
+    try {
+      await dispatch(fetchProductsData(userData?.token));
+      await dispatch(fetchProductsCategories());
+    } catch (error) {
+      console.error("Error fetching products up:", error);
+      Toast.show(products.errorMessage, Toast.LONG);
+    }
+  };
 
-  const navigation = useNavigation();
   const onClearFilter = () => {
     if (searchText.length > 0 || selectedCategory.length > 0) {
       setSelectedCategory("");
       setSearchText("");
     }
   };
-  const fun = (item) => {
-    navigation.navigate("Detail", { item });
-  };
+
   const flatListHeader = () => {
     return (
       <View>
         <View>
           <FlatList
             horizontal={true}
-            data={productCategories.filter((product) =>
-              product?.name.includes(searchText)
-            )}
+            data={categories}
+            keyExtractor={(item, index) => index + item._id.toString()}
             renderItem={({ item }) => {
               return (
                 <TouchableWithoutFeedback
                   onPress={() => {
-                    setSelectedCategory(item.name);
-                    setSearchText(item.name);
+                    setSelectedCategory(item?.name);
+                    setSearchText(item?.name);
                   }}
                 >
                   <View style={styles.carouselItem}>
@@ -88,28 +98,26 @@ const HomeScreen = () => {
       </View>
     );
   };
+
+  const renderProductItem = ({ item }) => {
+    return (
+      <TouchableWithoutFeedback onPress={() => dispatch(addToCart(item))}>
+        <View style={styles.renderItem}>
+          <ProductItem item={item} />
+        </View>
+      </TouchableWithoutFeedback>
+    );
+  };
   return (
     <View style={styles.container}>
       <View style={styles.container}>
         <View style={styles.bigCircle}></View>
         <View style={styles.smallCircle}></View>
         <View style={styles.centerizedView}>
-          <View
-            style={{
-              flex: 1,
-            }}
-          >
-            <View
-              style={{
-                top: Platform.OS === "ios" ? 35 : 0,
-              }}
-            >
+          <View style={styles.mainView}>
+            <View style={styles.mainView2}>
               <Headers />
-              <View
-                style={{
-                  marginVertical: 10,
-                }}
-              >
+              <View style={styles.mainView3}>
                 <SearchBar
                   search={searchText}
                   setSearch={setSearchText}
@@ -118,16 +126,11 @@ const HomeScreen = () => {
               </View>
             </View>
 
-            <View
-              style={{
-                marginVertical: 20,
-                flex: 1,
-              }}
-            >
+            <View style={styles.mainView4}>
               <FlatList
                 horizontal={false}
-                numColumns={3}
-                data={products?.products.filter(
+                numColumns={sizeHelper.screenWidth > 450 ? 4 : 3}
+                data={products?.filter(
                   (product) =>
                     product?.productName.includes(
                       searchText || selectedCategory
@@ -139,35 +142,14 @@ const HomeScreen = () => {
                       searchText || selectedCategory
                     )
                 )}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item }) => {
-                  return (
-                    <TouchableWithoutFeedback onPress={() => fun(item)}>
-                      <View style={styles.flatlItem}>
-                        <FastImage
-                          style={styles.flatImage}
-                          source={{ uri: item?.productImage }}
-                          resizeMode={FastImage.resizeMode.contain}
-                        />
-                        <View
-                          style={{
-                            justifyContent: "center",
-                          }}
-                        >
-                          <Text>{`${item.productName}`}</Text>
-
-                          <Text>{`PKR : ${item.productPrice}`}</Text>
-                        </View>
-                      </View>
-                    </TouchableWithoutFeedback>
-                  );
-                }}
+                keyExtractor={(item, index) => index + item._id.toString()}
+                renderItem={renderProductItem}
                 ListHeaderComponent={flatListHeader}
               />
             </View>
           </View>
         </View>
-        {products?.isLoading && <Loading />}
+        {state?.isLoading && <Loading />}
       </View>
     </View>
   );

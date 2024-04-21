@@ -9,248 +9,207 @@ import {
   Alert,
   SafeAreaView,
   ScrollView,
+  FlatList,
 } from "react-native";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import Button from "../../components/Button";
 import styles from "./style";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import FastImage from "react-native-fast-image";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { Colors } from "../../utilis/colors";
+import sizeHelper from "../../utilis/sizeHelper";
+
+import Loading from "../../components/Loading";
+import { addToCart, removeFromCart } from "../../redux/actions/cart";
 const CartScreen = ({ navigation }) => {
-  const [cart, setCart] = useState([
-    {
-      id: "1",
-      name: "Wired Mouse",
-      company: "Logitech",
-      img: "https://assets.logitech.com/assets/65019/3/mouton-boat-m90-refresh-gallery-image.png",
-      quantity: 1,
-      price: 299,
-      perPrice: 299,
-    },
-    {
-      id: "2",
-      name: "Airpods",
-      company: "Apple",
-      img: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MV7N2?wid=1144&hei=1144&fmt=jpeg&qlt=95&op_usm=0.5,0.5&.v=1551489688005",
-      quantity: 1,
-      price: 13999,
-      perPrice: 13999,
-    },
-  ]);
-  const [shippingMethod, setShippingMethod] = useState("Normal");
-  const dummy = () => {
-    itemsArray = [
-      ["Anne", "a"],
-      ["Bob", "b"],
-      ["Henry", "b"],
-      ["Andrew", "d"],
-      ["Jason", "c"],
-      ["Thomas", "b"],
-    ];
-    sortingArr = ["b", "c", "b", "b", "a", "d"];
-    function sortFunc(a, b) {
-      var sortingArr = ["b", "c", "b", "b", "c", "d"];
-      return sortingArr.indexOf(a[1]) - sortingArr.indexOf(b[1]);
-    }
-
-    let result = itemsArray.sort(sortFunc);
-    console.log(result);
-  };
-  useEffect(() => {
-    dummy();
-  }, []);
-
-  return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={{
-            paddingRight: 10,
-          }}
-          onPress={() => {
-            navigation.goBack();
-          }}
-        >
-          <FontAwesome5 name="angle-left" size={30} color="#fff" />
-        </TouchableOpacity>
-        <Text style={styles.paymentTitle}>Payment</Text>
-      </View>
-      <View style={styles.cartContainer}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.cartTitleView}>
-            <FontAwesome5
-              name="shopping-cart"
-              style={styles.cartIcon}
-              size={30}
-              color="#000"
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state?.data?.cartItems);
+  const state = useSelector((state) => state);
+  const totalPrice = cartItems.reduce((acc, item) => {
+    return acc + item.productPrice * item.productQuantity;
+  }, 0);
+  const renderCartProducts = ({ item, index }) => {
+    return (
+      <View>
+        <View style={styles.productView}>
+          {item?.productImage ? (
+            <FastImage
+              source={{ uri: item?.productImage }}
+              style={styles.categoryImage}
+              resizeMode={FastImage.resizeMode.contain}
             />
-            <Text style={styles.cartTitle}>My Cart</Text>
-          </View>
-          {cart.length > 0 ? (
-            <View>
-              {cart
-                .sort((a, b) => a.name > b.name)
-                .map((product) => (
-                  <View style={styles.productView}>
-                    {console.log(product)}
-                    <Image
-                      style={styles.productImage}
-                      source={{
-                        uri: product.img,
-                      }}
-                    />
-                    <View style={styles.productMiddleView}>
-                      <Text style={styles.productTitle}>{product.name}</Text>
-                      <Text style={styles.productCompanyTitle}>
-                        {product.company}
-                      </Text>
-                    </View>
-                    <View style={styles.productRightView}>
-                      <Text
-                        style={styles.productPriceText}
-                      >{`PKR-${product.price}`}</Text>
-                      <View style={styles.productItemCounterView}>
-                        <TouchableOpacity
-                          onPress={() => {
-                            if (product.quantity === 1) {
-                              return Alert.alert(
-                                `Remove ${product.name}?`,
-                                "",
-                                [
-                                  { text: "Cancel" },
-                                  {
-                                    text: "Remove",
-                                    onPress: () => {
-                                      const newCart = CartList.filter(
-                                        (p) => p.id !== product.id
-                                      );
-                                      setCart(newCart);
-                                    },
-                                  },
-                                ]
-                              );
-                            }
-                            const newProd = {
-                              ...product,
-                              quantity: product.quantity - 1,
-                              price: product.price - product.perPrice,
-                            };
-                            const restProds = CartList.filter(
-                              (p) => p.id !== product.id
-                            );
-                            setCart([...restProds, newProd]);
-                          }}
-                        >
-                          <FontAwesome5
-                            style={styles.toggleCounterButton}
-                            name="minus-circle"
-                            size={20}
-                            color={"#000"}
-                          />
-                        </TouchableOpacity>
-
-                        <Text style={styles.counterValue}>
-                          {product.quantity}
-                        </Text>
-                        <TouchableOpacity
-                          onPress={() => {
-                            const newProd = {
-                              ...product,
-                              quantity: product.quantity + 1,
-                              price: product.price + product.perPrice,
-                            };
-                            const restProds = cart.filter(
-                              (p) => p.id !== product.id
-                            );
-                            setCart([...restProds, newProd]);
-                          }}
-                        >
-                          <FontAwesome5
-                            style={styles.toggleCounterButton}
-                            name="plus-circle"
-                            size={20}
-                            color="#000"
-                          />
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                  </View>
-                ))}
-              <View style={styles.couponInputView}>
-                <TextInput
-                  placeholder="Coupon Code"
-                  style={styles.couponInput}
-                  placeholderTextColor={"#000"}
-                />
-                <TouchableOpacity style={styles.couponButton}>
-                  <Text style={styles.couponButtonText}>Apply Coupon</Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.subtotalView}>
-                <Text style={styles.subtotalText}>Subtotal -</Text>
-                <Text style={styles.subtotalPrice}>
-                  PKR-{cart.reduce((acc, val) => val.price + acc, 0)}
-                </Text>
-              </View>
-              <View style={styles.shippingView}>
-                <Text style={styles.shippingText}>Shipping Address -</Text>
-                <View style={styles.shippingItemsView}>
-                  <TouchableOpacity
-                    style={styles.shippingItem}
-                    onPress={() => {
-                      setShippingMethod("Normal");
-                    }}
-                  >
-                    <Text style={styles.shippingItemText}>Normal (Free)</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.shippingItem}
-                    onPress={() => {
-                      setShippingMethod("Express");
-                    }}
-                  >
-                    <Text style={styles.shippingItemText}>
-                      Urgetn (PKR-600)
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-              <View style={styles.totalView}>
-                <Text style={styles.totalText}>Total -</Text>
-                {shippingMethod === "Normal" ? (
-                  <Text style={styles.totalPrice}>
-                    PKR-{cart.reduce((acc, val) => val.price + acc, 0)}
-                  </Text>
-                ) : (
-                  <Text style={styles.totalPrice}>
-                    PKR-{cart.reduce((acc, val) => val.price + acc, 0) + 60}
-                  </Text>
-                )}
-              </View>
-              <TouchableOpacity style={styles.checkoutButton}>
-                <Text style={styles.checkoutButtonText}>
-                  Proceed to Checkout
-                </Text>
-              </TouchableOpacity>
-            </View>
           ) : (
-            <View style={styles.emptyCartView}>
-              <Text style={styles.emptyCartViewText}>Your cart is empty.</Text>
-              <View style={{ marginVertical: 10 }}>
-                <Button
-                  onPress={() => navigation.navigate("Home")}
-                  text={"Add to Cart"}
-                  color={"#FFF"}
-                  fontSize={20}
-                  height={40}
-                  width={150}
-                  borderWidth={1}
-                  backgroundColor={"#000"}
-                />
-              </View>
+            <View style={styles.categoryImage}>
+              <Icon
+                name="file-image-o"
+                size={sizeHelper.calWp(50)}
+                color={Colors.black2}
+              />
             </View>
           )}
-        </ScrollView>
+
+          <View style={styles.productMiddleView}>
+            <Text style={styles.productTitle}>{item.productName}</Text>
+            <Text style={styles.productCompanyTitle}>
+              {item.productCategory}
+            </Text>
+          </View>
+          <View style={styles.productRightView}>
+            <Text style={styles.productPriceText}>{`PKR-${
+              item.productPrice * item.productQuantity
+            }`}</Text>
+            <View style={styles.productItemCounterView}>
+              <TouchableOpacity
+                onPress={() => {
+                  dispatch(removeFromCart(item));
+                }}
+              >
+                <FontAwesome5
+                  style={styles.toggleCounterButton}
+                  name="minus-circle"
+                  size={20}
+                  color={Colors.white}
+                />
+              </TouchableOpacity>
+
+              <Text style={styles.counterValue}>{item.productQuantity}</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  dispatch(addToCart(item));
+                }}
+              >
+                <FontAwesome5
+                  style={styles.toggleCounterButton}
+                  name="plus-circle"
+                  size={20}
+                  color={Colors.white}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
       </View>
-    </SafeAreaView>
+    );
+  };
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.container}>
+        <View style={styles.bigCircle}></View>
+        <View style={styles.smallCircle}></View>
+        <View style={styles.centerizedView}>
+          <View style={styles.mainView}>
+            {cartItems.length > 0 ? (
+              <View style={{ flex: 1 }}>
+                <View style={styles.mainView4}>
+                  <FlatList
+                    showsVerticalScrollIndicator={false}
+                    data={cartItems}
+                    keyExtractor={(item, index) => index + item._id.toString()}
+                    renderItem={renderCartProducts}
+                  />
+                  <View
+                    style={{
+                      zIndex: 999999,
+                    }}
+                  >
+                    <View style={styles.totalView}>
+                      <Text style={styles.totalText}>Total -</Text>
+
+                      <Text style={styles.totalPrice}>
+                        PKR-
+                        {totalPrice}
+                      </Text>
+                    </View>
+                    <Button
+                      text={"Checkout"}
+                      color={Colors.white}
+                      fontSize={20}
+                      height={50}
+                      width={"100%"}
+                      marginVertical={20}
+                      backgroundColor={Colors.dangerColor}
+                      borderColor={Colors.dangerColor}
+                      fontWeight={"bold"}
+                    />
+                  </View>
+                </View>
+              </View>
+            ) : (
+              <View style={styles.emptyCartView}>
+                <Text style={styles.emptyCartViewText}>
+                  Your cart is empty.
+                </Text>
+                <View style={{ marginVertical: 10 }}>
+                  <Button
+                    onPress={() => navigation.navigate("Home")}
+                    text={"Add to Cart"}
+                    color={"#FFF"}
+                    fontSize={20}
+                    height={40}
+                    width={150}
+                    borderWidth={1}
+                    backgroundColor={Colors.dangerColor}
+                    borderColor={Colors.dangerColor}
+                  />
+                </View>
+              </View>
+            )}
+          </View>
+        </View>
+        {state?.isLoading && <Loading />}
+      </View>
+    </View>
+    // <>
+
+    // <SafeAreaView style={styles.container}>
+    //       <View style={styles.cartContainer}>
+    //         <ScrollView showsVerticalScrollIndicator={false}>
+    //           {cartItems.length > 0 ? (
+    //             <View>
+    //               {cartItems
+    //                 .sort((a, b) => a.productName > b.productName)
+    //                 .map((product) => (
+
+    //                 ))}
+
+    //               <View style={styles.shippingView}>
+    //                 <Text style={styles.shippingText}>Shipping Address -</Text>
+    //               </View>
+    //               <View style={styles.totalView}>
+    //                 <Text style={styles.totalText}>Total -</Text>
+
+    //                 <Text style={styles.totalPrice}>
+    //                   PKR-{cart.reduce((acc, val) => val.price + acc, 0)}
+    //                 </Text>
+    //               </View>
+    //               <TouchableOpacity style={styles.checkoutButton}>
+    //                 <Text style={styles.checkoutButtonText}>
+    //                   Proceed to Checkout
+    //                 </Text>
+    //               </TouchableOpacity>
+    //             </View>
+    //           ) : (
+    //             <View style={styles.emptyCartView}>
+    //               <Text style={styles.emptyCartViewText}>Your cart is empty.</Text>
+    //               <View style={{ marginVertical: 10 }}>
+    //                 <Button
+    //                   onPress={() => navigation.navigate("Home")}
+    //                   text={"Add to Cart"}
+    //                   color={"#FFF"}
+    //                   fontSize={20}
+    //                   height={40}
+    //                   width={150}
+    //                   borderWidth={1}
+    //                   backgroundColor={"#000"}
+    //                 />
+    //               </View>
+    //             </View>
+    //           )}
+    //         </ScrollView>
+    //       </View>
+    //     </SafeAreaView></>
   );
 };
 export default CartScreen;

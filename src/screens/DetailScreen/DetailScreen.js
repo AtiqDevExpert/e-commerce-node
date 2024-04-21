@@ -23,7 +23,10 @@ import FastImage from "react-native-fast-image";
 import { Colors } from "../../utilis/colors";
 
 const DetailScreen = ({ navigation, route }) => {
+  const dispatch = useDispatch();
   const item = route?.params?.item;
+  const addItem = (item) => {};
+  const removeItem = (item) => {};
   return (
     <View style={styles.container}>
       <View style={styles.container}>
@@ -52,11 +55,21 @@ const DetailScreen = ({ navigation, route }) => {
                   padding: 10,
                 }}
               >
-                <Text style={styles.itemName}>{item.productName}</Text>
-                <Text style={styles.name}>Price : {item.productPrice}</Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text style={styles.itemName}>
+                    Product Name - {item.productName}
+                  </Text>
+                  <Text style={styles.name}>PKR-{item.productPrice}</Text>
+                </View>
 
-                <Text style={styles.detail}>Discription :</Text>
-                <Text style={styles.detail}>{item.productDescription}</Text>
+                <Text style={styles.desceription}>Discription :</Text>
+                <Text style={styles.details}>{item.productDescription}</Text>
               </View>
             </View>
           </ScrollView>
@@ -92,6 +105,7 @@ const DetailScreen = ({ navigation, route }) => {
                 borderWidth={1}
                 backgroundColor={Colors.dangerColor}
                 borderColor={Colors.dangerColor}
+                onPress={addItem(item)}
               />
             </View>
           </View>
@@ -133,24 +147,32 @@ const styles = StyleSheet.create({
   },
 
   name: {
-    color: "#000",
+    color: Colors.white,
 
     fontSize: 15,
     fontWeight: "bold",
   },
   itemName: {
-    color: "#000",
+    color: Colors.white,
 
     fontSize: 20,
     fontWeight: "bold",
   },
-  detail: {
-    color: "#000",
+  desceription: {
+    color: Colors.white,
     fontSize: 15,
     fontWeight: "bold",
     marginTop: 10,
     textAlign: "left",
-    paddingHorizontal: 10,
+    // paddingHorizontal: 10,
+  },
+  details: {
+    color: Colors.white,
+    fontSize: 12,
+    fontWeight: "400",
+    marginTop: 10,
+    textAlign: "left",
+    // paddingHorizontal: 10,
   },
   design: {
     width: Dimensions.get("window").width - 20,

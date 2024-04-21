@@ -6,7 +6,6 @@ import CartScreen from "../screens/CartScreen/CartScreen";
 import RegisterScreen from "../screens/RegisterScreen/RegisterScreen";
 import LoginScreen from "../screens/LoginScreen/LoginScreen";
 import TabScreen from "../Tabs/TabScreen";
-import Resend from "../screens/Resend/resend";
 import EditProfile from "../ButtomTab/EditProfile/EditProfile";
 import OtpScreen from "../screens/OtpScreen/OtpScreen";
 import ForgetPasswordScreen from "../screens/ForgetPasswordScreen/ForgetPasswordScreen";

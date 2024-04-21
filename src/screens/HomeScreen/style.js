@@ -124,5 +124,20 @@ const styles = StyleSheet.create({
 
     overflow: "hidden",
   },
+  mainView: {
+    flex: 1,
+  },
+  mainView2: {
+    top: Platform.OS === "ios" ? 50 : 20,
+  },
+  mainView3: {
+    marginVertical: 10,
+  },
+  mainView4: {
+    marginVertical: 10,
+    flex: 1,
+    top: Platform.OS === "ios" ? 20 : 0,
+  },
+  renderItem: { marginVertical: 10, marginHorizontal: 5 },
 });
 export default styles;
