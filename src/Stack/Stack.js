@@ -62,6 +62,7 @@ const Stack = () => {
         name="createPassword"
         component={CreateNewPassswordScreen}
       />
+
       <stack.Screen
         screenOptions={{ headerShown: false }}
         name="editProfile"

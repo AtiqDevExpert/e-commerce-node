@@ -13,6 +13,7 @@ import FastImage from "react-native-fast-image";
 import { Colors } from "../utilis/colors";
 import sizeHelper from "../utilis/sizeHelper";
 const ProductItem = ({ item }) => {
+  console.log("item", item);
   return (
     <View
       style={[
@@ -38,8 +39,15 @@ const ProductItem = ({ item }) => {
         </View>
       )}
       <Text adjustsFontSizeToFit numberOfLines={2} style={styles.title}>
-        {I18nManager.isRTL ? item.ProductName2 : item.ProductName}
+        Qty:
+        {item?.productSellQuantity
+          ? item?.productRemainingQuantity
+          : item.productTotalQuantity}
       </Text>
+      <Text adjustsFontSizeToFit numberOfLines={2} style={styles.title}>
+        {item.productName}
+      </Text>
+
       <Text numberOfLines={1} style={styles.price}>
         PKR-{item?.productPrice.toFixed(2)}
       </Text>

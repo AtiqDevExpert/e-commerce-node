@@ -1,4 +1,9 @@
-import { ADD_TO_CART, REMOVE_FROM_CART, UPDATE_CART } from "./action_types";
+import {
+  ADD_TO_CART,
+  REMOVE_FROM_CART,
+  UPDATE_CART,
+  EMPTY_CART,
+} from "./action_types";
 
 export const addToCart = (product) => {
   return (dispatch, getState) => {
@@ -11,7 +16,7 @@ export const addToCart = (product) => {
         if (item._id === product._id) {
           return {
             ...item,
-            productQuantity: item.productQuantity + 1,
+            productInvoiceQuantity: item.productInvoiceQuantity + 1,
           };
         }
         return item;
@@ -24,7 +29,7 @@ export const addToCart = (product) => {
     } else {
       dispatch({
         type: ADD_TO_CART,
-        payload: { ...product, productQuantity: 1 },
+        payload: { ...product, productInvoiceQuantity: 1 },
       });
     }
   };
@@ -41,8 +46,8 @@ export const removeFromCart = (product) => {
       const updatedCartItems = [...cartItems];
 
       // If the quantity of the item is greater than 1, decrement the quantity
-      if (updatedCartItems[index].productQuantity > 1) {
-        updatedCartItems[index].productQuantity -= 1;
+      if (updatedCartItems[index].productInvoiceQuantity > 1) {
+        updatedCartItems[index].productInvoiceQuantity -= 1;
       } else {
         updatedCartItems.splice(index, 1);
       }
@@ -52,5 +57,10 @@ export const removeFromCart = (product) => {
         payload: updatedCartItems,
       });
     }
+  };
+};
+export const emptyCart = () => {
+  return {
+    type: EMPTY_CART,
   };
 };

@@ -1,25 +1,37 @@
-// import { configureStore } from "@reduxjs/toolkit";
-// import productReducer from "./slices/product";
-// import userReducer from "./slices/user";
-// import addNewProduct from "./slices/addProduct";
-// import productsCategories from "./slices/categories";
-// import cartSlice from "./slices/cart";
-// export const store = configureStore({
-//   reducer: {
-//     product: productReducer,
-//     loginUser: userReducer,
-//     addNewProduct: addNewProduct,
-//     cart: cartSlice,
-//     productsCategories: productsCategories,
-//   },
-// });
+// import { createStore, applyMiddleware } from "redux";
+// import logger from "redux-logger";
+// import thunk from "redux-thunk";
+// import reducer from "./reducers/reducer";
+// import { persistStore, persistReducer } from 'redux-persist';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+// const persistConfig = {
+//     key: 'root',
+//     storage: AsyncStorage,
+//     // Add blacklist/whitelist if needed
+//     // blacklist: ['navigation'], // Example
+//   };
+//   const persistedReducer = persistReducer(persistConfig, reducer);
+//   export const store = createStore(persistedReducer);
+// export const persistor = persistStore(store);
+// // const store = createStore(reducer, applyMiddleware(thunk, logger));
 
-// store.js
+// export default store;
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createStore, applyMiddleware } from "redux";
-import logger from "redux-logger";
+import { persistStore, persistReducer } from "redux-persist";
 import thunk from "redux-thunk";
-import reducer from "./reducers/reducer"; // Assuming you have your rootReducer
+import logger from "redux-logger";
+import reducer from "./reducers/reducer";
 
-const store = createStore(reducer, applyMiddleware(thunk, logger)); // Add logger middleware if needed
+const persistConfig = {
+  key: "root",
+  storage: AsyncStorage,
+};
 
-export default store;
+const persistedReducer = persistReducer(persistConfig, reducer);
+
+export default () => {
+  let store = createStore(persistedReducer, applyMiddleware(thunk, logger));
+  let persistor = persistStore(store);
+  return { store, persistor };
+};

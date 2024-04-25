@@ -109,8 +109,6 @@ const styles = StyleSheet.create({
     color: Colors.white,
   },
   productPriceText: {
-    alignSelf: "flex-end",
-    paddingRight: 10,
     fontSize: 20,
     fontWeight: "700",
     color: Colors.white,

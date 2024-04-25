@@ -7,8 +7,6 @@ import {
 import URL from "../../utilis/api/baseUrl";
 
 const fetchDataRequest = () => {
-  console.log("running 1");
-
   return {
     type: FETCHING_USER_DATA,
   };

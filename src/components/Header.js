@@ -7,7 +7,7 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import React from "react";
-
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import { useNavigation } from "@react-navigation/native";
 import FastImage from "react-native-fast-image";
 import { Colors } from "../utilis/colors";
@@ -39,6 +39,17 @@ const Header = () => {
               width: 100,
             }}
           >
+            <TouchableOpacity
+              style={styles.touch}
+              onPress={() => navigation.navigate("createProduct")}
+            >
+              <FontAwesome5
+                style={styles.toggleCounterButton}
+                name="plus-circle"
+                size={20}
+                color={Colors.white}
+              />
+            </TouchableOpacity>
             <TouchableOpacity
               onPress={navigateToCart}
               style={{

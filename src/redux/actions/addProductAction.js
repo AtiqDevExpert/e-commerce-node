@@ -6,28 +6,28 @@ import {
 } from "./action_types";
 import URL from "../../utilis/api/baseUrl";
 
-const fetchDataRequest = () => {
+const addProductRequest = () => {
   return {
     type: ADD_NEW_PRODUCT_DATA,
   };
 };
-const fetchDataSuccess = (data) => {
+const addProductSuccess = (data) => {
   return {
     type: ADD_NEW_PRODUCTS_DATA_SUCCESS,
     payload: data,
   };
 };
 
-const fetchDataFailure = (error) => {
+const addProductFailure = (error) => {
   return {
     type: ADD_NEW_PRODUCTS_DATA_FAILED,
     payload: error,
   };
 };
 
-export const fetchProductsData = (body) => {
+export const addProductData = (body) => {
   return async (dispatch) => {
-    dispatch(fetchDataRequest());
+    dispatch(addProductRequest());
 
     try {
       const inst = axios.create({
@@ -37,10 +37,10 @@ export const fetchProductsData = (body) => {
         },
       });
       const response = await inst.post("/products/createproduct", body);
-      dispatch(fetchDataSuccess(response.data));
+      dispatch(addProductSuccess(response.data));
       return response.data;
     } catch (error) {
-      dispatch(fetchDataFailure(error.message));
+      dispatch(addProductFailure(error.message));
       if (error.response) {
         throw new Error(error.response.data.message);
       } else {

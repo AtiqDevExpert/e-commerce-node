@@ -8,6 +8,7 @@ import {
   FlatList,
   Platform,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { fetchAllProducts } from "../../redux/slices/product";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,17 +21,16 @@ import SearchBar from "../../components/SearchBar";
 import { Colors } from "../../utilis/colors";
 import ProductItem from "../../components/ProductItem";
 import sizeHelper from "../../utilis/sizeHelper";
-import {
-  fetchProductsCategories,
-  fetchProductsData,
-} from "../../redux/actions/allProductsAction";
+import { fetchProductsData } from "../../redux/actions/allProductsAction";
 import { addToCart } from "../../redux/actions/cart";
+import { fetchProductCategories } from "../../redux/actions/category";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
   const state = useSelector((state) => state);
 
   const products = useSelector((state) => state?.data?.allProducts?.products);
+
   const categories = useSelector(
     (state) => state?.data?.allCategories?.Categories
   );
@@ -49,7 +49,7 @@ const HomeScreen = () => {
   const fetchData = async () => {
     try {
       await dispatch(fetchProductsData(userData?.token));
-      await dispatch(fetchProductsCategories());
+      await dispatch(fetchProductCategories());
     } catch (error) {
       console.error("Error fetching products up:", error);
       Toast.show(products.errorMessage, Toast.LONG);
@@ -98,14 +98,32 @@ const HomeScreen = () => {
       </View>
     );
   };
-
+  const addProductToCart = (item) => {
+    if (item?.productTotalQuantity === 0) {
+      Alert.alert("E Shop", "Product out of stock", [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        { text: "OK", onPress: () => console.log("OK Pressed") },
+      ]);
+    } else {
+      dispatch(addToCart(item));
+    }
+  };
   const renderProductItem = ({ item }) => {
     return (
-      <TouchableWithoutFeedback onPress={() => dispatch(addToCart(item))}>
+      <TouchableOpacity
+        disabled={item?.productTotalQuantity === 0}
+        onPress={() => {
+          addProductToCart(item);
+        }}
+      >
         <View style={styles.renderItem}>
           <ProductItem item={item} />
         </View>
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
     );
   };
   return (

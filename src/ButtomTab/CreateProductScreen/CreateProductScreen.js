@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from "react";
 import {
-  StyleSheet,
   Text,
   View,
   TextInput,
-  Image,
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
-  ScrollView,
   ActivityIndicator,
+  FlatList,
 } from "react-native";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import Modal from "react-native-modal";
 import ImagePicker from "react-native-image-crop-picker";
 import Toast from "react-native-root-toast";
 import { Colors } from "../../utilis/colors";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
+
 import { CrossRedIcon, UploadIcon } from "../../assets/svg/SvgIcons";
 import styles from "./style";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -24,19 +23,21 @@ import Button from "../../components/Button";
 import FastImage from "react-native-fast-image";
 import Loading from "../../components/Loading";
 import { useSelector, useDispatch } from "react-redux";
-import { addNewProduct } from "../../redux/slices/addProduct";
+import { addProductData } from "../../redux/actions/addProductAction";
 
 const CreateProductScreen = ({ navigation }) => {
-  const newProduct = useSelector((state) => state.addNewProduct);
+  const categories = useSelector(
+    (state) => state?.data?.allCategories?.Categories
+  );
+  const state = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  const [productName, setProductName] = useState("dummy");
-  const [productPrice, setProductPrice] = useState("1200");
-  const [productDescription, setProductDescription] = useState(
-    "werdftghkjl nj l s ljv jv aj afv "
-  );
-  const [productTotalQuantity, setProductTotalQuantity] = useState("1000");
-  const [productCategory, setProductCategory] = useState("Dummy");
+  const [productName, setProductName] = useState("");
+  const [productPrice, setProductPrice] = useState("");
+  const [productDescription, setProductDescription] = useState("");
+  const [productTotalQuantity, setProductTotalQuantity] = useState("");
+  const [productCategory, setProductCategory] = useState("");
+  const [categoryIndex, setCategoryIndex] = useState();
   const [selecter, setSelecter] = useState(false);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -63,7 +64,7 @@ const CreateProductScreen = ({ navigation }) => {
       alert("All fields are required");
     } else {
       try {
-        dispatch(addNewProduct(body));
+        dispatch(addProductData(body));
         navigation.goBack();
       } catch (error) {
         console.error("Error signing up:", error);
@@ -249,16 +250,69 @@ const CreateProductScreen = ({ navigation }) => {
                 />
               </View>
               <View style={styles.inputBox}>
-                <Text style={styles.inputLabel}>Product Category</Text>
-                <TextInput
-                  placeholder="Category"
-                  style={styles.input}
-                  value={productCategory}
-                  label="Category"
-                  onChangeText={(text) => setProductCategory(text)}
-                  secure={false}
-                  autoCapitalize="none"
-                  keyboardType="email-address"
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text style={styles.inputLabel}>Product Category</Text>
+                  <TouchableOpacity style={styles.touch}>
+                    <FontAwesome5
+                      style={styles.toggleCounterButton}
+                      name="plus-circle"
+                      size={20}
+                      color={Colors.dangerColor}
+                    />
+                  </TouchableOpacity>
+                </View>
+
+                <FlatList
+                  horizontal={true}
+                  data={categories}
+                  keyExtractor={(item, index) => index + item._id.toString()}
+                  renderItem={({ item, index }) => {
+                    return (
+                      <TouchableWithoutFeedback
+                        onPress={() => {
+                          setProductCategory(item?.name);
+                          setCategoryIndex(index);
+                        }}
+                      >
+                        <View
+                          style={[
+                            styles.carouselItem,
+                            {
+                              backgroundColor:
+                                categoryIndex === index
+                                  ? Colors.dangerColor
+                                  : "#fafafa",
+                              borderColor:
+                                categoryIndex === index
+                                  ? Colors.dangerColor
+                                  : "#fafafa",
+
+                              borderWidth: categoryIndex === index ? 0.5 : 0,
+                            },
+                          ]}
+                        >
+                          <Text
+                            style={{
+                              fontSize: 14,
+                              color:
+                                categoryIndex === index
+                                  ? Colors.white
+                                  : Colors.dangerColor,
+                              fontWeight: "700",
+                            }}
+                          >
+                            {item.name}
+                          </Text>
+                        </View>
+                      </TouchableWithoutFeedback>
+                    );
+                  }}
                 />
               </View>
 
@@ -336,7 +390,7 @@ const CreateProductScreen = ({ navigation }) => {
               </Modal>
             </View>
           )}
-          {newProduct.isLoading && <Loading />}
+          {state.isLoading && <Loading />}
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAwareScrollView>

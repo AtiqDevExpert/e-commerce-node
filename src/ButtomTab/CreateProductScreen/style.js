@@ -193,5 +193,17 @@ const styles = StyleSheet.create({
     right: 0,
     paddingRight: 10,
   },
+  carouselItem: {
+    borderRadius: 5,
+
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 5,
+    marginHorizontal: 5,
+  },
+  touch: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
 export default styles;

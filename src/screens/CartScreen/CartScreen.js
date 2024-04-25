@@ -21,14 +21,47 @@ import { Colors } from "../../utilis/colors";
 import sizeHelper from "../../utilis/sizeHelper";
 
 import Loading from "../../components/Loading";
-import { addToCart, removeFromCart } from "../../redux/actions/cart";
+import { addToCart, emptyCart, removeFromCart } from "../../redux/actions/cart";
+import {
+  createInvoiceData,
+  updateInvoiceProductsData,
+} from "../../redux/actions/invoice";
+import Toast from "react-native-root-toast";
 const CartScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state?.data?.cartItems);
-  const state = useSelector((state) => state);
   const totalPrice = cartItems.reduce((acc, item) => {
-    return acc + item.productPrice * item.productQuantity;
+    return acc + item.productPrice * item.productInvoiceQuantity;
   }, 0);
+  const state = useSelector((state) => state);
+  const onHandleCreateInvoice = async () => {
+    const body = {
+      invoiceProducts: cartItems,
+      invoiceTotalPrice: totalPrice,
+    };
+
+    if (!body.invoiceProducts || !body.invoiceTotalPrice) {
+      alert("All fields are required");
+    } else {
+      try {
+        const response = await dispatch(createInvoiceData(body));
+
+        if (response) {
+          const productUpdate = await dispatch(
+            updateInvoiceProductsData(cartItems)
+          );
+          console.log("productUpdate in database ====>", productUpdate);
+
+          dispatch(emptyCart());
+          Toast.show(response.message, Toast.LONG);
+        }
+      } catch (error) {
+        console.error("Error signing up:", error);
+        Toast.show("Error", Toast.LONG);
+      }
+    }
+  };
+
   const renderCartProducts = ({ item, index }) => {
     return (
       <View>
@@ -55,10 +88,13 @@ const CartScreen = ({ navigation }) => {
               {item.productCategory}
             </Text>
           </View>
-          <View style={styles.productRightView}>
+          <View style={styles.productMiddleView}>
+            <Text style={styles.productTitle}>Price</Text>
             <Text style={styles.productPriceText}>{`PKR-${
-              item.productPrice * item.productQuantity
+              item.productPrice * item.productInvoiceQuantity
             }`}</Text>
+          </View>
+          <View style={styles.productRightView}>
             <View style={styles.productItemCounterView}>
               <TouchableOpacity
                 onPress={() => {
@@ -73,7 +109,9 @@ const CartScreen = ({ navigation }) => {
                 />
               </TouchableOpacity>
 
-              <Text style={styles.counterValue}>{item.productQuantity}</Text>
+              <Text style={styles.counterValue}>
+                {item.productInvoiceQuantity}
+              </Text>
               <TouchableOpacity
                 onPress={() => {
                   dispatch(addToCart(item));
@@ -132,6 +170,7 @@ const CartScreen = ({ navigation }) => {
                       backgroundColor={Colors.dangerColor}
                       borderColor={Colors.dangerColor}
                       fontWeight={"bold"}
+                      onPress={onHandleCreateInvoice}
                     />
                   </View>
                 </View>
@@ -161,55 +200,6 @@ const CartScreen = ({ navigation }) => {
         {state?.isLoading && <Loading />}
       </View>
     </View>
-    // <>
-
-    // <SafeAreaView style={styles.container}>
-    //       <View style={styles.cartContainer}>
-    //         <ScrollView showsVerticalScrollIndicator={false}>
-    //           {cartItems.length > 0 ? (
-    //             <View>
-    //               {cartItems
-    //                 .sort((a, b) => a.productName > b.productName)
-    //                 .map((product) => (
-
-    //                 ))}
-
-    //               <View style={styles.shippingView}>
-    //                 <Text style={styles.shippingText}>Shipping Address -</Text>
-    //               </View>
-    //               <View style={styles.totalView}>
-    //                 <Text style={styles.totalText}>Total -</Text>
-
-    //                 <Text style={styles.totalPrice}>
-    //                   PKR-{cart.reduce((acc, val) => val.price + acc, 0)}
-    //                 </Text>
-    //               </View>
-    //               <TouchableOpacity style={styles.checkoutButton}>
-    //                 <Text style={styles.checkoutButtonText}>
-    //                   Proceed to Checkout
-    //                 </Text>
-    //               </TouchableOpacity>
-    //             </View>
-    //           ) : (
-    //             <View style={styles.emptyCartView}>
-    //               <Text style={styles.emptyCartViewText}>Your cart is empty.</Text>
-    //               <View style={{ marginVertical: 10 }}>
-    //                 <Button
-    //                   onPress={() => navigation.navigate("Home")}
-    //                   text={"Add to Cart"}
-    //                   color={"#FFF"}
-    //                   fontSize={20}
-    //                   height={40}
-    //                   width={150}
-    //                   borderWidth={1}
-    //                   backgroundColor={"#000"}
-    //                 />
-    //               </View>
-    //             </View>
-    //           )}
-    //         </ScrollView>
-    //       </View>
-    //     </SafeAreaView></>
   );
 };
 export default CartScreen;
