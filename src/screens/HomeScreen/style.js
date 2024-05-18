@@ -1,5 +1,6 @@
 import { Dimensions, StyleSheet } from "react-native";
 import { Colors } from "../../utilis/colors";
+import sizeHelper from "../../utilis/sizeHelper";
 const styles = StyleSheet.create({
   carouselItem: {
     borderRadius: 5,
@@ -11,6 +12,7 @@ const styles = StyleSheet.create({
     padding: 5,
     marginHorizontal: 10,
     top: 10,
+    flexDirection: "row",
   },
   itemName: {
     position: "absolute",
@@ -139,5 +141,14 @@ const styles = StyleSheet.create({
     top: Platform.OS === "ios" ? 20 : 0,
   },
   renderItem: { marginVertical: 10, marginHorizontal: 5 },
+  categoryImage: {
+    height: sizeHelper.calHp(40),
+    width: sizeHelper.calWp(40),
+
+    justifyContent: "center",
+    alignItems: "center",
+
+    // backgroundColor: 'white',
+  },
 });
 export default styles;

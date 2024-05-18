@@ -82,7 +82,7 @@ export const fetchProductsCategories = () => {
           //   Authorization: `Bearer ${token}`,
         },
       });
-      const response = await inst.get("/category");
+      const response = await inst.get("/categories");
       dispatch(fetchCategorySuccess(response.data));
       return response.data;
     } catch (error) {

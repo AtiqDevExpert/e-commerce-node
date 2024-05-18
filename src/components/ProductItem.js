@@ -13,7 +13,6 @@ import FastImage from "react-native-fast-image";
 import { Colors } from "../utilis/colors";
 import sizeHelper from "../utilis/sizeHelper";
 const ProductItem = ({ item }) => {
-  console.log("item", item);
   return (
     <View
       style={[

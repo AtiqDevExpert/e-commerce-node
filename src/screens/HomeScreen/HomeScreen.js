@@ -24,6 +24,7 @@ import sizeHelper from "../../utilis/sizeHelper";
 import { fetchProductsData } from "../../redux/actions/allProductsAction";
 import { addToCart } from "../../redux/actions/cart";
 import { fetchProductCategories } from "../../redux/actions/category";
+import FastImage from "react-native-fast-image";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -52,7 +53,7 @@ const HomeScreen = () => {
       await dispatch(fetchProductCategories());
     } catch (error) {
       console.error("Error fetching products up:", error);
-      Toast.show(products.errorMessage, Toast.LONG);
+      Toast.show(products.message, Toast.LONG);
     }
   };
 
@@ -75,8 +76,8 @@ const HomeScreen = () => {
               return (
                 <TouchableWithoutFeedback
                   onPress={() => {
-                    setSelectedCategory(item?.name);
-                    setSearchText(item?.name);
+                    setSelectedCategory(item?.categoryName);
+                    setSearchText(item?.categoryName);
                   }}
                 >
                   <View style={styles.carouselItem}>
@@ -87,8 +88,15 @@ const HomeScreen = () => {
                         fontWeight: "700",
                       }}
                     >
-                      {item.name}
+                      {item.categoryName}
                     </Text>
+                    {item.categoryImage && (
+                      <FastImage
+                        source={{ uri: item?.categoryImage }}
+                        style={styles.categoryImage}
+                        resizeMode={FastImage.resizeMode.contain}
+                      />
+                    )}
                   </View>
                 </TouchableWithoutFeedback>
               );

@@ -1,5 +1,6 @@
 import { StyleSheet, Dimensions } from "react-native";
 import { Colors } from "../../utilis/colors";
+import sizeHelper from "../../utilis/sizeHelper";
 
 const styles = StyleSheet.create({
   container: {
@@ -195,15 +196,28 @@ const styles = StyleSheet.create({
   },
   carouselItem: {
     borderRadius: 5,
-
     justifyContent: "center",
     alignItems: "center",
     padding: 5,
     marginHorizontal: 5,
+    marginVertical: 5,
+    flexDirection: "row",
   },
   touch: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  mainView3: {
+    marginVertical: 10,
+  },
+  categoryImage: {
+    height: sizeHelper.calHp(40),
+    width: sizeHelper.calWp(40),
+
+    justifyContent: "center",
+    alignItems: "center",
+
+    // backgroundColor: 'white',
   },
 });
 export default styles;

@@ -10,7 +10,6 @@ import {
   FlatList,
 } from "react-native";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-import Modal from "react-native-modal";
 import ImagePicker from "react-native-image-crop-picker";
 import Toast from "react-native-root-toast";
 import { Colors } from "../../utilis/colors";
@@ -24,14 +23,16 @@ import FastImage from "react-native-fast-image";
 import Loading from "../../components/Loading";
 import { useSelector, useDispatch } from "react-redux";
 import { addProductData } from "../../redux/actions/addProductAction";
-
+import SearchBar from "../../components/SearchBar";
+import ImageSelectModal from "../../components/ImageSelectModal";
+import CategoryModal from "../../components/CategoryModal";
+import { addCategoryData } from "../../redux/actions/addCategoryAction";
 const CreateProductScreen = ({ navigation }) => {
   const categories = useSelector(
     (state) => state?.data?.allCategories?.Categories
   );
   const state = useSelector((state) => state);
   const dispatch = useDispatch();
-
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [productDescription, setProductDescription] = useState("");
@@ -40,8 +41,11 @@ const CreateProductScreen = ({ navigation }) => {
   const [categoryIndex, setCategoryIndex] = useState();
   const [selecter, setSelecter] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [newCategoryVisible, setNewCategoryVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState(null);
+  const [categoryName, setCategoryName] = useState("");
+  const [categoryImage, setCategoryImage] = useState(null);
 
   const onHandleCreateProduct = async () => {
     const body = {
@@ -68,7 +72,26 @@ const CreateProductScreen = ({ navigation }) => {
         navigation.goBack();
       } catch (error) {
         console.error("Error signing up:", error);
-        Toast.show(newProduct.errorMessage, Toast.LONG);
+        Toast.show(newProduct.message, Toast.LONG);
+      }
+    }
+  };
+  const onHandleCreateCategory = async () => {
+    const body = {
+      categoryName: categoryName,
+      categoryImage: categoryImage,
+    };
+
+    console.log("onHandleCreateCategory body ===== > ", body);
+    if (!body.categoryName) {
+      alert("All fields are required");
+    } else {
+      try {
+        dispatch(addCategoryData(body));
+        setNewCategoryVisible(false);
+      } catch (error) {
+        console.error("Error signing up:", error);
+        Toast.show(newProduct.message, Toast.LONG);
       }
     }
   };
@@ -83,9 +106,15 @@ const CreateProductScreen = ({ navigation }) => {
         setVisible(false);
 
         const result = await firebaseUploader(image);
-        setImage(result);
-        setSelecter(false);
-        setLoading(false);
+        if (newCategoryVisible === true) {
+          setCategoryImage(result);
+          setSelecter(false);
+          setLoading(false);
+        } else {
+          setImage(result);
+          setSelecter(false);
+          setLoading(false);
+        }
       } else {
         setVisible(false);
         setSelecter(false);
@@ -103,9 +132,15 @@ const CreateProductScreen = ({ navigation }) => {
         setVisible(false);
 
         const result = await firebaseUploader(image);
-        setImage(result);
-        setSelecter(false);
-        setLoading(false);
+        if (newCategoryVisible === true) {
+          setCategoryImage(result);
+          setSelecter(false);
+          setLoading(false);
+        } else {
+          setImage(result);
+          setSelecter(false);
+          setLoading(false);
+        }
       } else {
         setVisible(false);
         setSelecter(false);
@@ -114,11 +149,18 @@ const CreateProductScreen = ({ navigation }) => {
     });
   };
   const onClear = () => {
+    setCategoryImage(null);
     setImage(null);
     setSelecter(false);
   };
   const goBack = () => {
     navigation.goBack();
+  };
+  const [searchText, setSearchText] = useState("");
+  const onClearFilter = () => {
+    if (searchText.length > 0) {
+      setSearchText("");
+    }
   };
   return (
     <KeyboardAwareScrollView
@@ -196,6 +238,94 @@ const CreateProductScreen = ({ navigation }) => {
               <Text style={styles.loginTitleText}>Add New Product</Text>
               <View style={styles.hr}></View>
               <View style={styles.inputBox}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <View>
+                    <Text style={styles.inputLabel}>Product Category</Text>
+                  </View>
+
+                  <TouchableOpacity
+                    onPress={() => setNewCategoryVisible(true)}
+                    style={styles.touch}
+                  >
+                    <FontAwesome5
+                      style={styles.toggleCounterButton}
+                      name="plus-circle"
+                      size={20}
+                      color={Colors.dangerColor}
+                    />
+                  </TouchableOpacity>
+                </View>
+
+                {Array.isArray(categories) && categories.length > 0 && (
+                  <>
+                    <View style={styles.mainView3}>
+                      <SearchBar
+                        search={searchText}
+                        setSearch={setSearchText}
+                        onClearFilter={onClearFilter}
+                      />
+                    </View>
+                    <FlatList
+                      horizontal={true}
+                      data={categories?.filter((category) =>
+                        category?.categoryName.includes(searchText)
+                      )}
+                      keyExtractor={(item, index) =>
+                        index + item._id.toString()
+                      }
+                      renderItem={({ item, index }) => {
+                        return (
+                          <TouchableWithoutFeedback
+                            onPress={() => {
+                              setProductCategory(item?.categoryName);
+                              setCategoryIndex(index);
+                            }}
+                          >
+                            <View
+                              style={[
+                                styles.carouselItem,
+                                {
+                                  backgroundColor:
+                                    categoryIndex === index
+                                      ? Colors.dangerColor
+                                      : "#fafafa",
+                                  borderColor:
+                                    categoryIndex === index
+                                      ? Colors.dangerColor
+                                      : "#fafafa",
+
+                                  borderWidth:
+                                    categoryIndex === index ? 0.5 : 0,
+                                },
+                              ]}
+                            >
+                              <Text
+                                style={{
+                                  fontSize: 14,
+                                  color:
+                                    categoryIndex === index
+                                      ? Colors.white
+                                      : Colors.dangerColor,
+                                  fontWeight: "700",
+                                }}
+                              >
+                                {item.categoryName}
+                              </Text>
+                            </View>
+                          </TouchableWithoutFeedback>
+                        );
+                      }}
+                    />
+                  </>
+                )}
+              </View>
+              <View style={styles.inputBox}>
                 <Text style={styles.inputLabel}>Product Name</Text>
                 <TextInput
                   placeholder="Product Name"
@@ -249,72 +379,6 @@ const CreateProductScreen = ({ navigation }) => {
                   keyboardType="email-address"
                 />
               </View>
-              <View style={styles.inputBox}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <Text style={styles.inputLabel}>Product Category</Text>
-                  <TouchableOpacity style={styles.touch}>
-                    <FontAwesome5
-                      style={styles.toggleCounterButton}
-                      name="plus-circle"
-                      size={20}
-                      color={Colors.dangerColor}
-                    />
-                  </TouchableOpacity>
-                </View>
-
-                <FlatList
-                  horizontal={true}
-                  data={categories}
-                  keyExtractor={(item, index) => index + item._id.toString()}
-                  renderItem={({ item, index }) => {
-                    return (
-                      <TouchableWithoutFeedback
-                        onPress={() => {
-                          setProductCategory(item?.name);
-                          setCategoryIndex(index);
-                        }}
-                      >
-                        <View
-                          style={[
-                            styles.carouselItem,
-                            {
-                              backgroundColor:
-                                categoryIndex === index
-                                  ? Colors.dangerColor
-                                  : "#fafafa",
-                              borderColor:
-                                categoryIndex === index
-                                  ? Colors.dangerColor
-                                  : "#fafafa",
-
-                              borderWidth: categoryIndex === index ? 0.5 : 0,
-                            },
-                          ]}
-                        >
-                          <Text
-                            style={{
-                              fontSize: 14,
-                              color:
-                                categoryIndex === index
-                                  ? Colors.white
-                                  : Colors.dangerColor,
-                              fontWeight: "700",
-                            }}
-                          >
-                            {item.name}
-                          </Text>
-                        </View>
-                      </TouchableWithoutFeedback>
-                    );
-                  }}
-                />
-              </View>
 
               <Button
                 text={"Create Product"}
@@ -342,53 +406,27 @@ const CreateProductScreen = ({ navigation }) => {
           </View>
 
           {!!visible && (
-            <View
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Modal isVisible={visible}>
-                <View style={styles.ModalView}>
-                  <TouchableOpacity
-                    onPress={() => setVisible(false)}
-                    style={styles.modalIcon}
-                  >
-                    <CrossRedIcon style={styles.crossRedIcon} />
-                  </TouchableOpacity>
-                  <Text style={{ color: Colors.modalTextColor }}>
-                    Click your desired Button
-                  </Text>
-                  <View style={styles.ModalBtnView}>
-                    <Button
-                      text={"Open camera"}
-                      color={Colors.white}
-                      fontSize={15}
-                      height={45}
-                      width={"40%"}
-                      marginTop={30}
-                      backgroundColor={Colors.dangerColor}
-                      borderColor={Colors.dangerColor}
-                      marginBottom={10}
-                      onPress={takePhotoFromCamera}
-                    />
-
-                    <Button
-                      text={"Open Gallery"}
-                      color={Colors.white}
-                      fontSize={15}
-                      height={45}
-                      width={"40%"}
-                      marginTop={30}
-                      backgroundColor={Colors.dangerColor}
-                      borderColor={Colors.dangerColor}
-                      marginBottom={10}
-                      onPress={takePhotoFromGallery}
-                    />
-                  </View>
-                </View>
-              </Modal>
-            </View>
+            <ImageSelectModal
+              loading={loading}
+              visible={visible}
+              setVisible={setVisible}
+              takePhotoFromCamera={takePhotoFromCamera}
+              takePhotoFromGallery={takePhotoFromGallery}
+            />
+          )}
+          {!!newCategoryVisible && (
+            <CategoryModal
+              loading={loading}
+              categoryImage={categoryImage}
+              newCategoryVisible={newCategoryVisible}
+              setNewCategoryVisible={setNewCategoryVisible}
+              setVisible={setVisible}
+              onClear={onClear}
+              categoryName={categoryName}
+              setCategoryName={setCategoryName}
+              onHandleCreateCategory={onHandleCreateCategory}
+              goBack={goBack}
+            />
           )}
           {state.isLoading && <Loading />}
         </View>

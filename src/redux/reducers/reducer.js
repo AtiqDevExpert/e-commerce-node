@@ -21,6 +21,9 @@ import {
   UPDATE_INVOICE_PRODUCTS_DATA_SUCCESS,
   UPDATE_INVOICE_PRODUCTS_DATA_FAILED,
   EMPTY_CART,
+  ADD_NEW_CATEGORY_DATA,
+  ADD_NEW_CATEGORY_DATA_SUCCESS,
+  ADD_NEW_CATEGORY_DATA_FAILED,
 } from "../actions/action_types";
 const appState = {
   userData: "",
@@ -100,6 +103,11 @@ const reducer = (state = initialState, action) => {
         },
       };
     case FETCHING_ALL_CATEGORIES_DATA_FAILED:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+      };
     // add new product by api
     case ADD_NEW_PRODUCT_DATA:
       return {
@@ -195,6 +203,29 @@ const reducer = (state = initialState, action) => {
         isLoading: false,
         error: action.payload,
       };
+    // add new category by api
+    case ADD_NEW_CATEGORY_DATA:
+      return {
+        ...state,
+        isLoading: true,
+        error: null,
+      };
+    case ADD_NEW_CATEGORY_DATA_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        data: {
+          ...state.data,
+          isNewCategoryAdded: action.payload,
+        },
+      };
+    case ADD_NEW_CATEGORY_DATA_FAILED:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+      };
+
     // Set cartItems array to an empty array
     case EMPTY_CART:
       return {

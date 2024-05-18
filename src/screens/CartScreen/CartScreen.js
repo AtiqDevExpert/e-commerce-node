@@ -112,6 +112,7 @@ const CartScreen = ({ navigation }) => {
               <Text style={styles.counterValue}>
                 {item.productInvoiceQuantity}
               </Text>
+
               <TouchableOpacity
                 onPress={() => {
                   dispatch(addToCart(item));
